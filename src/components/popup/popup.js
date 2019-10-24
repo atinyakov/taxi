@@ -53,11 +53,7 @@ export default function Popup() {
         // onClose={handleClose}
       >
         <div className={classes.paper}>
-          <h2 id="simple-modal-title">Регистрация</h2>
-          <p id="simple-modal-description">
-            Уже зарегестрированы? Войти
-          </p>
-          <React.Fragment>
+            <React.Fragment>
             {activeStep === steps.length ? (
               <React.Fragment>
                 <Typography variant="h5" gutterBottom>
@@ -71,19 +67,34 @@ export default function Popup() {
             ) : (
               <React.Fragment>
                 <div className={classes.buttons}>
+                    
                   {activeStep !== 0 && (
+                    <React.Fragment>
+                    <h2 id="simple-modal-title">Войти</h2>
+                    <p id="simple-modal-description">
+                        Новый пользователь?
+                    </p>
                     <Button onClick={handleBack} className={classes.button}>
-                      Back
+                      Зарегистрироваться
                     </Button>
+                    </React.Fragment>
+
                   )}
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
-                  </Button>
+                  {activeStep !== 1 && (
+
+                    <React.Fragment>
+                        <h2 id="simple-modal-title">Регистрация</h2>
+                        <p id="simple-modal-description">
+                            Уже зарегестрированы?
+                        </p>
+                        <Button
+                            onClick={handleNext}
+                            className={classes.button}
+                        >
+                            Войти
+                        </Button>
+                    </React.Fragment>
+                  )}
                 </div>
                 {getStepContent(activeStep)}
               </React.Fragment>
