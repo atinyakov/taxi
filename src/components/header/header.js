@@ -18,9 +18,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const Header = () => {
+const Header = (props) => {
     const classes = useStyles();
+    const {handleClick} = props;
 
+    
 
     return (
         <div>
@@ -29,9 +31,9 @@ const Header = () => {
                     <Typography variant="h6" className={classes.title}>
                         Loft Taxi
                     </Typography>
-                    <Button color="inherit">Карта</Button>
-                    <Button color="inherit">Профиль</Button>
-                    <Button color="inherit">Войти</Button>
+                    <Button color="inherit" onClick = {() => handleClick('showMap')}>Карта</Button>
+                    <Button color="inherit" onClick = {() => handleClick('showProfile')}>Профиль</Button>
+                    <Button color="inherit" onClick = {() => handleClick('isLoggedIn')}>Войти</Button>
                 </Toolbar>
             </AppBar>
         </div>

@@ -4,7 +4,6 @@ import Modal from '@material-ui/core/Modal';
 import SignUp from '../sign-up';
 import SignIn from '../sign-in';
 import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 
 
@@ -33,9 +32,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Popup() {
+export default function Popup({showPopup}) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
+//   const {isOpen}  = this.props;
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -49,7 +49,7 @@ export default function Popup() {
       <Modal
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
-        open={true}
+        open={showPopup}
         // onClose={handleClose}
       >
         <div className={classes.paper}>
