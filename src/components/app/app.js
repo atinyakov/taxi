@@ -1,12 +1,15 @@
-import React, { Component} from 'react';
+import React, { Component } from 'react';
 import Header from '../header';
 import Popup from '../popup';
 import Map from '../map';
 import Profile from '../profile';
+import { isLoggedIn, status } from '../context/index';
+
+// const isLoggedIn  = React.createContext(false);
 
 export default class App extends Component {
     state = {
-        isLoggedIn: true,
+        isLoggedIn: status.loggedIn,
         showMap: false,
         showProfile: false,
         user: {
@@ -19,21 +22,21 @@ export default class App extends Component {
     }
 
     handleLogin = () => {
-        this.setState({isLoggedIn: !this.state.isLoggedIn})
+        this.setState({ isLoggedIn: !this.state.isLoggedIn })
     }
 
     toggleMap = () => {
-        this.setState({showMap: !this.state.showMap})
+        this.setState({ showMap: !this.state.showMap })
     }
 
-    handleOpenClose = (src)  => {
+    handleOpenClose = (src) => {
         // console.log('here')
-        this.setState( () => {
+        this.setState(() => {
             return this.toggleProperty(src);
         })
     }
 
-    toggleProperty (propName) {
+    toggleProperty(propName) {
         const newState = Object.assign({}, this.state)
 
         newState[propName] = !newState[propName];
@@ -42,16 +45,20 @@ export default class App extends Component {
     }
 
     render() {
-        const {isLoggedIn, showMap, showProfile} = this.state;
+        const { showMap, showProfile } = this.state;
 
         return (
             <div>
-                <Header 
+                <Header
                     handleClick={this.handleOpenClose}
-                    login = {this.handleLogin}
+                    login={this.handleLogin}
                     showMap={this.toggleMap}
                 />
-                <Popup showPopup = {!isLoggedIn}/>
+                {/* <isLoggedIn.Provider value={this.state.isLoggedIn}> */}
+                    <Popup isOpen={this.state.isLoggedIn}/>
+                {/* </isLoggedIn.Provider> */}
+
+
                 {showMap && <Map />}
                 {showProfile && <Profile />}
             </div>
