@@ -3,13 +3,13 @@ import Header from '../header';
 import Popup from '../popup';
 import Map from '../map';
 import Profile from '../profile';
-import { isLoggedIn, status } from '../context/index';
+// import { isLoggedIn, login } from '../context/index';
 
 // const isLoggedIn  = React.createContext(false);
 
 export default class App extends Component {
     state = {
-        isLoggedIn: status.loggedIn,
+        // isLoggedIn: status.loggedIn,
         showMap: false,
         showProfile: false,
         user: {
@@ -54,10 +54,8 @@ export default class App extends Component {
                     login={this.handleLogin}
                     showMap={this.toggleMap}
                 />
-                {/* <isLoggedIn.Provider value={this.state.isLoggedIn}> */}
-                    <Popup isOpen={this.state.isLoggedIn}/>
-                {/* </isLoggedIn.Provider> */}
 
+                    <Popup />
 
                 {showMap && <Map />}
                 {showProfile && <Profile />}

@@ -6,7 +6,8 @@ import SignIn from '../sign-in';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
-import { isLoggedIn, login } from '../context/index';
+import { isLoggedIn } from '../context/index';
+
 
 
 const steps = ['SignIn', 'SignUp'];
@@ -16,7 +17,7 @@ function getStepContent(step) {
     case 0:
       return <SignIn />;
     case 1:
-      return (<login.Provider handlerLogin={login}><SignUp /></login.Provider>);
+      return <SignUp />;
     default:
       throw new Error('Unknown step');
   }
