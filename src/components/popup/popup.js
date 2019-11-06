@@ -6,22 +6,11 @@ import SignIn from '../sign-in';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
-import { isLoggedIn } from '../context/index';
+// import { isLoggedIn } from '../context/index';
 
 
 
-const steps = ['SignIn', 'SignUp'];
 
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <SignIn />;
-    case 1:
-      return <SignUp />;
-    default:
-      throw new Error('Unknown step');
-  }
-}
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -35,28 +24,39 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Popup() {
+export default function Popup({isLoggedIn, handleLogin}) {
+  const steps = ['SignIn', 'SignUp'];
+  
+  function getStepContent(step) {
+    switch (step) {
+      case 0:
+        return <SignIn />;
+      case 1:
+        return <SignUp handleLogin={handleLogin}/>;
+      default:
+        throw new Error('Unknown step');
+    }
+  }
+
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
+  
   // const   = this.props;
-
+  
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
-
+  
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
-  const showPopup = useContext(isLoggedIn)
+  // const showPopup = useContext(isLoggedIn)
 
   return (
-    // <isLoggedIn.Consumer>
-    //   {value =>
     <Modal
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
-      open={!showPopup}
-    // onClose={handleClose}
+      open={!isLoggedIn}
     >
       <div className={classes.paper}>
         <React.Fragment>
@@ -110,16 +110,14 @@ export default function Popup() {
       </div>
 
     </Modal>
-    //   }
-    // </isLoggedIn.Consumer>
   );
 }
 
 
 Popup.propTypes = {
-  showPopup: PropTypes.bool
+  isLoggedIn: PropTypes.bool
 };
 
 Popup.defaultProps = {
-  showPopup: false
+  isLoggedIn: false
 };

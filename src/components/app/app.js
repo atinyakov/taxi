@@ -3,63 +3,52 @@ import Header from '../header';
 import Popup from '../popup';
 import Map from '../map';
 import Profile from '../profile';
-// import { isLoggedIn, login } from '../context/index';
+import { isLoggedIn, status, login, toggleStatus } from '../context/index';
+import { userData, user, reducer } from '../context/user';
 
 // const isLoggedIn  = React.createContext(false);
 
-export default class App extends Component {
-    state = {
-        // isLoggedIn: status.loggedIn,
-        showMap: false,
-        showProfile: false,
-        user: {
-            email: '',
-            nickname: '',
-            name: '',
-            surname: '',
-            password: ''
-        }
-    }
+export default function App() {
 
-    handleLogin = () => {
-        this.setState({ isLoggedIn: !this.state.isLoggedIn })
-    }
+    const [state, dispatch] = React.useReducer(reducer, userData);
 
-    toggleMap = () => {
-        this.setState({ showMap: !this.state.showMap })
-    }
+    // handleLogin = () => {
+    //     this.setState({ isLoggedIn: !this.state.isLoggedIn })
+    // }
 
-    handleOpenClose = (src) => {
-        // console.log('here')
-        this.setState(() => {
-            return this.toggleProperty(src);
-        })
-    }
+    // toggleMap = () => {
+    //     this.setState({ showMap: !this.state.showMap })
+    // }
 
-    toggleProperty(propName) {
-        const newState = Object.assign({}, this.state)
+    // handleOpenClose = (src) => {
+    //     this.setState(() => {
+    //         return this.toggleProperty(src);
+    //     })
+    // }
 
-        newState[propName] = !newState[propName];
-        // console.log(newState)
-        return newState;
-    }
+    // render() {
+    //     const { showMap, showProfile } = this.state;
 
-    render() {
-        const { showMap, showProfile } = this.state;
+    return (
+        <div>
+            <Header
+            />
+            <user.Provider value={{
+                ...state,
+                handleLogin: () =>
+                    dispatch({ type: 'login' })
+            }}>
+                <user.Consumer>
+                    {props =>
+                        <Popup props={props} />
+                    }
+                </user.Consumer>
+            </user.Provider>
 
-        return (
-            <div>
-                <Header
-                    handleClick={this.handleOpenClose}
-                    login={this.handleLogin}
-                    showMap={this.toggleMap}
-                />
-
-                    <Popup />
-
+            {/* 
                 {showMap && <Map />}
-                {showProfile && <Profile />}
-            </div>
-        )
-    }
+                {showProfile && <Profile />} */}
+        </div >
+    )
+    // }
 }
