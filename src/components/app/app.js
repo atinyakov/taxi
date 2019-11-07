@@ -3,22 +3,51 @@ import Header from '../header';
 import Popup from '../popup';
 import Map from '../map';
 import Profile from '../profile';
-import { isLoggedIn, status, login, toggleStatus } from '../context/index';
-import { userData, user, reducer } from '../context/user';
+// import { isLoggedIn, login } from '../context/index';
 
 // const isLoggedIn  = React.createContext(false);
+import { userContext, appContext } from '../context';
 
-export default function App() {
 
-    const [state, dispatch] = React.useReducer(reducer, userData);
+export default class App extends Component {
+    state = {
+        isLoggedIn: false,
+        showMap: false,
+        showProfile: false,
+        user: {
+            email: '',
+            nickname: '',
+            name: '',
+            surname: '',
+            password: ''
+        }
+    }
 
-    // handleLogin = () => {
-    //     this.setState({ isLoggedIn: !this.state.isLoggedIn })
-    // }
+    toggleLogginPopup = () => {
+        this.setState({ isLoggedIn: !this.state.isLoggedIn })
 
-    // toggleMap = () => {
-    //     this.setState({ showMap: !this.state.showMap })
-    // }
+        if (this.state.isLoggedIn) {
+            this.toggleMap();
+        }
+    }
+
+    handleLogin = (email, password) => {
+        this.setState(prevState => {
+            let updated = { ...prevState.user, email, password };
+            return updated;
+        });
+
+        this.toggleLogginPopup();
+        this.toggleMap();
+    }
+
+    toggleMap = () => {
+        this.setState({ showMap: !this.state.showMap })
+    }
+
+    toggleProfile = () => {
+        this.setState({ showProfile: !this.state.showProfile })
+    }
 
     // handleOpenClose = (src) => {
     //     this.setState(() => {
@@ -26,29 +55,34 @@ export default function App() {
     //     })
     // }
 
-    // render() {
-    //     const { showMap, showProfile } = this.state;
+    // toggleProperty(propName) {
+    //     const newState = Object.assign({}, this.state)
 
-    return (
-        <div>
-            <Header
-            />
-            <user.Provider value={{
-                ...state,
-                handleLogin: () =>
-                    dispatch({ type: 'login' })
-            }}>
-                <user.Consumer>
-                    {props =>
-                        <Popup props={props} />
-                    }
-                </user.Consumer>
-            </user.Provider>
+    //     newState[propName] = !newState[propName];
 
-            {/* 
-                {showMap && <Map />}
-                {showProfile && <Profile />} */}
-        </div >
-    )
+    //     return newState;
     // }
+
+    render() {
+        const { showMap, showProfile, isLoggedIn } = this.state;
+
+        return (
+            <div>
+                <userContext.Provider value={isLoggedIn}>
+                    <appContext.Provider value={{ toggleLogginPopup: this.toggleLogginPopup, toggleMap: this.toggleMap, toggleProfile: this.toggleProfile }}>
+                        <Header />
+                    </appContext.Provider>
+                </userContext.Provider>
+
+                <userContext.Provider value={{ isLoggedIn, handleLogin: this.handleLogin }}>
+                    <Popup />
+                </userContext.Provider>
+
+
+
+                {showMap && <Map />}
+                {showProfile && <Profile />}
+            </div>
+        )
+    }
 }
