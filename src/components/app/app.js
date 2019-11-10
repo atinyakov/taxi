@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import Header from '../header';
-import Popup from '../popup';
-import Map from '../map';
-import Profile from '../profile';
-// import { isLoggedIn, login } from '../context/index';
-
-// const isLoggedIn  = React.createContext(false);
+import Header from '../Header';
+import Popup from '../Popup';
+import Map from '../Map';
+import Profile from '../Profile';
 import { userContext, appContext } from '../context';
 
 

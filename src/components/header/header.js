@@ -23,7 +23,7 @@ const Header = () => {
 
     return (
         <div>
-            <AppBar>
+            <AppBar data-testid="header">
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
                         Loft Taxi
