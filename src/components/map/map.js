@@ -4,6 +4,7 @@ import "mapbox-gl/dist/mapbox-gl.css"
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css"
 import React, { Component } from 'react'
 import MapGL from "react-map-gl";
+import nanoid from 'nanoid/non-secure'
 import DeckGL, { GeoJsonLayer } from "deck.gl";
 import Geocoder from "react-map-gl-geocoder";
 
@@ -18,6 +19,7 @@ class Map extends Component {
       longitude: 0,
       zoom: 1
     },
+    id : nanoid(),
     searchResultLayer: null
   }
 
@@ -52,7 +54,7 @@ class Map extends Component {
   }
 
     render(){
-      const { viewport, searchResultLayer} = this.state
+      const { id, viewport, searchResultLayer} = this.state
       return (
         <div style={{ height: '100vh'}}>
           <h1 style={{textAlign: 'center', fontSize: '25px', fontWeight: 'bolder' }}>Use the search bar to find a location or click <a href="/">here</a> to find your location</h1>
@@ -66,6 +68,7 @@ class Map extends Component {
             mapboxApiAccessToken={token}
             >
               <Geocoder 
+                key={id}
                 mapRef={this.mapRef}
                 onResult={this.handleOnResult}
                 onViewportChange={this.handleGeocoderViewportChange}

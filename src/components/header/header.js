@@ -6,6 +6,7 @@ import { Toolbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 // import PropTypes from 'prop-types';
 import { appContext, userContext } from '../context';
+import { Link, Route } from 'react-router-dom';
 
 
 
@@ -18,8 +19,10 @@ const useStyles = makeStyles(theme => ({
 
 const Header = () => {
     const classes = useStyles();
-    const { toggleLogginPopup, toggleMap, toggleProfile } = useContext(appContext);
-    const isLoggedin = useContext(userContext);
+    // const { toggleLogginPopup, toggleMap, toggleProfile } = useContext(appContext);
+    const { logout } = useContext(appContext);
+
+    const { isLoggedin } = useContext(userContext);
 
     return (
         <div>
@@ -28,23 +31,35 @@ const Header = () => {
                     <Typography variant="h6" className={classes.title}>
                         Loft Taxi
                     </Typography>
-                    <Button
+                    {/* <Button
                         color="inherit"
                         disabled={!isLoggedin}
                         onClick={toggleMap}>
                         Карта
-                    </Button>
-                    <Button
+                    </Button> */}
+                    <Link to="/map" ><Button
+                        color="inherit"
+                    // disabled={!isLoggedin}
+                    // onClick={toggleMap}
+                    >
+                        Карта
+                    </Button></Link>
+                    <Link to="/profile" ><Button
                         color="inherit"
                         disabled={!isLoggedin}
-                        onClick={toggleProfile}>
+                    // onClick={toggleProfile}
+                    >
                         Профиль
                     </Button>
-                    <Button
-                        color="inherit"
-                        onClick={toggleLogginPopup}>
-                        {isLoggedin ? 'Выйти' : 'Войти'}
-                    </Button>
+                    </Link>
+                    <Link to="/map" >
+                        <Button
+                            color="inherit"
+                            onClick={logout}
+                        >
+                            {isLoggedin ? <Link to="/" >Выйти</Link> : 'Войти'}
+                        </Button>
+                    </Link>
                 </Toolbar>
             </AppBar>
         </div>
