@@ -3,11 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.5.1",
+    "@material-ui/core": "^4.6.0",
+    "deck.gl": "^7.3.3",
+    "install": "^0.13.0",
+    "loft-taxi-mui-theme": "^1.0.1",
+    "npm": "^6.12.1",
+    "prop-types": "^15.7.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
-    "react-map-gl": "^5.0.12",
+    "react-map-gl": "^5.1.1",
+    "react-map-gl-geocoder": "^2.0.11",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
+    "run": "^1.4.0",
     "typeface-roboto": "0.0.75"
   },
   "scripts": {
@@ -30,5 +38,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/react": "^9.3.2"
   }
 }

@@ -1,14 +1,17 @@
-import React, { Component} from 'react';
-import Header from '../header';
-import Popup from '../popup';
-import Map from '../map';
-import Profile from '../profile';
+import React, { Component } from 'react';
+import Header from '../Header';
+import Popup from '../Popup';
+import Map from '../Map';
+import Profile from '../Profile';
+import { userContext, appContext } from '../context';
+import {Link, Route} from 'react-router-dom';
+
 
 export default class App extends Component {
     state = {
-        isLoggedIn: true,
-        showMap: false,
-        showProfile: false,
+        isLoggedIn: false,
+        // showMap: false,
+        // showProfile: false,
         user: {
             email: '',
             nickname: '',
@@ -18,43 +21,63 @@ export default class App extends Component {
         }
     }
 
-    handleLogin = () => {
-        this.setState({isLoggedIn: !this.state.isLoggedIn})
+    toggleLogginPopup = () => {
+        this.setState({ isLoggedIn: true })
+
+        // if (this.state.isLoggedIn) {
+        //     this.toggleMap();
+        // }
     }
 
-    toggleMap = () => {
-        this.setState({showMap: !this.state.showMap})
+    logout = () => {
+        this.setState({ isLoggedIn: false })
+        // this.toggleLogginPopup()
     }
 
-    handleOpenClose = (src)  => {
-        // console.log('here')
-        this.setState( () => {
-            return this.toggleProperty(src);
-        })
+    handleLogin = (email, password) => {
+        this.setState(prevState => {
+            let updated = { ...prevState.user, email, password };
+            return updated;
+        });
+
+        console.log('here')
+        this.toggleLogginPopup();
+        // this.toggleMap();
     }
 
-    toggleProperty (propName) {
-        const newState = Object.assign({}, this.state)
+    // toggleMap = () => {
+    //     this.setState({ showMap: !this.state.showMap })
+    // }
 
-        newState[propName] = !newState[propName];
-        // console.log(newState)
-        return newState;
-    }
+    // toggleProfile = () => {
+    //     this.setState({ showProfile: !this.state.showProfile })
+    // }
 
     render() {
-        const {isLoggedIn, showMap, showProfile} = this.state;
+        const { isLoggedIn } = this.state;
 
         return (
-            <div>
-                <Header 
-                    handleClick={this.handleOpenClose}
-                    login = {this.handleLogin}
-                    showMap={this.toggleMap}
-                />
-                <Popup showPopup = {!isLoggedIn}/>
-                {showMap && <Map />}
-                {showProfile && <Profile />}
-            </div>
+            <>
+                <userContext.Provider value={{ isLoggedIn, handleLogin: this.handleLogin }}>
+                    {/* <appContext.Provider value={{ toggleLogginPopup: this.toggleLogginPopup, toggleMap: this.toggleMap, toggleProfile: this.toggleProfile }}> */}
+                    <appContext.Provider value={{ logout: this.logout }}>
+
+                        {/* <Route exact path="/" component={Header} />  */}
+                        <Header />
+                    </appContext.Provider>
+
+                    <Route path="/" exact component={Popup} />
+                    <Route path="/map" component={Map} /> 
+                    <Route path="/profile" component={Profile} />
+                </userContext.Provider>
+{/* 
+                <userContext.Provider value={{ isLoggedIn, handleLogin: this.handleLogin }}>
+                    <Route path="/" exact component={Popup} />
+                </userContext.Provider>
+
+                <Route path="/map" component={Map} /> 
+                <Route path="/profile" component={Profile} /> */}
+            </>
         )
     }
 }
