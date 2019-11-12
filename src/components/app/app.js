@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import Header from '../Header';
 import Popup from '../Popup';
 import Map from '../Map';
 import Profile from '../Profile';
 import { userContext, appContext } from '../context';
-import {Link, Route} from 'react-router-dom';
+import { Link, Route, Redirect } from 'react-router-dom';
 
 
 export default class App extends Component {
@@ -21,7 +21,7 @@ export default class App extends Component {
         }
     }
 
-    toggleLogginPopup = () => {
+    login = () => {
         this.setState({ isLoggedIn: true })
 
         // if (this.state.isLoggedIn) {
@@ -31,7 +31,7 @@ export default class App extends Component {
 
     logout = () => {
         this.setState({ isLoggedIn: false })
-        // this.toggleLogginPopup()
+        // this.login()
     }
 
     handleLogin = (email, password) => {
@@ -40,8 +40,8 @@ export default class App extends Component {
             return updated;
         });
 
-        console.log('here')
-        this.toggleLogginPopup();
+        // console.log('here')
+        this.login();
         // this.toggleMap();
     }
 
@@ -58,26 +58,45 @@ export default class App extends Component {
 
         return (
             <>
-                <userContext.Provider value={{ isLoggedIn, handleLogin: this.handleLogin }}>
-                    {/* <appContext.Provider value={{ toggleLogginPopup: this.toggleLogginPopup, toggleMap: this.toggleMap, toggleProfile: this.toggleProfile }}> */}
+                <userContext.Provider value={{ isLoggedIn, handleLogin: this.handleLogin, login: this.login }}>
+                    {/* <appContext.Provider value={{ login: this.login, toggleMap: this.toggleMap, toggleProfile: this.toggleProfile }}> */}
                     <appContext.Provider value={{ logout: this.logout }}>
-
-                        {/* <Route exact path="/" component={Header} />  */}
                         <Header />
                     </appContext.Provider>
+
+                    <LoginPage />
 
                     <Route path="/" exact component={Popup} />
                     <Route path="/map" component={Map} /> 
                     <Route path="/profile" component={Profile} />
                 </userContext.Provider>
-{/* 
-                <userContext.Provider value={{ isLoggedIn, handleLogin: this.handleLogin }}>
-                    <Route path="/" exact component={Popup} />
-                </userContext.Provider>
-
-                <Route path="/map" component={Map} /> 
-                <Route path="/profile" component={Profile} /> */}
             </>
         )
+    }
+}
+
+let LoginPage = ({ isAuthorized }) =>
+    isAuthorized ? (
+        <Redirect to="/map" />
+    ) : (
+        <Redirect to="/" exact component={Popup} />
+        );
+
+LoginPage = withAuth(LoginPage);
+
+function withAuth(WrappedComponent) {
+    return class AuthHOC extends Component {
+        render() {
+
+            const { ...rest } = this.props;
+
+            return (
+                <userContext.Consumer>
+                    {contextProps => (
+                        <WrappedComponent {...contextProps} {...rest} />
+                    )}
+                </userContext.Consumer>
+            )
+        }
     }
 }

@@ -22,7 +22,7 @@ const Header = () => {
     // const { toggleLogginPopup, toggleMap, toggleProfile } = useContext(appContext);
     const { logout } = useContext(appContext);
 
-    const { isLoggedin } = useContext(userContext);
+    const { isLoggedIn } = useContext(userContext);
 
     return (
         <div>
@@ -46,7 +46,7 @@ const Header = () => {
                     </Button></Link>
                     <Link to="/profile" ><Button
                         color="inherit"
-                        disabled={!isLoggedin}
+                        // disabled={!isLoggedIn}
                     // onClick={toggleProfile}
                     >
                         Профиль
@@ -57,7 +57,7 @@ const Header = () => {
                             color="inherit"
                             onClick={logout}
                         >
-                            {isLoggedin ? <Link to="/" >Выйти</Link> : 'Войти'}
+                            {isLoggedIn ? <Link to="/" >Выйти</Link> : 'Войти'}
                         </Button>
                     </Link>
                 </Toolbar>
