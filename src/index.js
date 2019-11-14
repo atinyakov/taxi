@@ -5,13 +5,11 @@ import 'typeface-roboto';
 import { BrowserRouter } from 'react-router-dom';
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import {loginHandler} from './reducer'
+import { taxiApp } from './reducer'
 
 
-let store = createStore(loginHandler);
-// console.log(store.getState());
-// store.dispatch({type: 'LOGIN'})
-// console.log(store.getState());
+let store = createStore(taxiApp,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 ReactDOM.render(
     <Provider store={store} >

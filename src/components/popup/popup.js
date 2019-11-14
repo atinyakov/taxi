@@ -1,12 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import SignUp from '../SignUp';
 import SignIn from '../SignIn';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-// import PropTypes from 'prop-types';
-import { userContext } from '../context';
+import { connect } from 'react-redux'
 
 
 const useStyles = makeStyles(theme => ({
@@ -21,9 +20,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Popup() {
+function Popup({isLoggedIn}) {
   const steps = ['SignIn', 'SignUp'];
-  const {isLoggedIn} = useContext(userContext)
   
   function getStepContent(step) {
     switch (step) {
@@ -108,10 +106,18 @@ export default function Popup() {
 }
 
 
-// Popup.propTypes = {
-//   showPopup: PropTypes.bool
-// };
+const mapStateToProps = (state) => {
+  return {
+      isLoggedIn: state.loginHandler.isLoggedIn
+  }
+}
 
-// Popup.defaultProps = {
-//   showPopup: false
-// };
+const mapDispatchToProps = (dispatch) => {
+  return {
+  }
+}
+
+export default  connect(
+  mapStateToProps,
+  mapDispatchToProps
+)( Popup )

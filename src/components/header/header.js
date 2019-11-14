@@ -1,14 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { Toolbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-// import PropTypes from 'prop-types';
-import { appContext, userContext } from '../context';
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-
+import { connect } from 'react-redux';
+import {logout} from '../../action';
 
 const useStyles = makeStyles(theme => ({
     title: {
@@ -17,12 +16,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const Header = () => {
+const Header = ({ isLoggedIn, logout }) => {
     const classes = useStyles();
-    // const { toggleLogginPopup, toggleMap, toggleProfile } = useContext(appContext);
-    const { logout } = useContext(appContext);
-
-    const { isLoggedIn } = useContext(userContext);
 
     return (
         <div>
@@ -31,12 +26,6 @@ const Header = () => {
                     <Typography variant="h6" className={classes.title}>
                         Loft Taxi
                     </Typography>
-                    {/* <Button
-                        color="inherit"
-                        disabled={!isLoggedin}
-                        onClick={toggleMap}>
-                        Карта
-                    </Button> */}
                     <Link to="/map" ><Button
                         color="inherit"
                     // disabled={!isLoggedin}
@@ -46,8 +35,6 @@ const Header = () => {
                     </Button></Link>
                     <Link to="/profile" ><Button
                         color="inherit"
-                        // disabled={!isLoggedIn}
-                    // onClick={toggleProfile}
                     >
                         Профиль
                     </Button>
@@ -66,10 +53,21 @@ const Header = () => {
     )
 }
 
-// Header.propTypes = {
-//     handleClick : PropTypes.func,
-//     login : PropTypes.func,
-//     showMap : PropTypes.func
-// };
+const mapStateToProps = (state) => {
+    return {
+        isLoggedIn: state.loginHandler.isLoggedIn
+    }
+}
 
-export default Header;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        logout: () => {
+            dispatch(logout());
+        }
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Header)
