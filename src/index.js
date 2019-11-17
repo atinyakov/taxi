@@ -3,13 +3,19 @@ import ReactDOM from 'react-dom';
 import App from './components/App'
 import 'typeface-roboto';
 import { BrowserRouter } from 'react-router-dom';
-import { createStore } from 'redux'
+import { createStore, compose, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { taxiApp } from './reducer'
+import { loginMiddleWare } from './middleware'
 
+let prevState = localStorage.getItem('user');
+let userDataHandler = {...JSON.parse(prevState)};
 
-let store = createStore(taxiApp,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+let store = createStore(taxiApp, userDataHandler, compose(
+    applyMiddleware(loginMiddleWare),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
+)
 
 ReactDOM.render(
     <Provider store={store} >

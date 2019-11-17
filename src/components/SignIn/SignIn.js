@@ -1,28 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 // import FormControlLabel from '@material-ui/core/FormControlLabel';
 // import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
+import { connect } from 'react-redux';
+import { signUpData } from '../../action';
 
 
 
-export default function SignIn() {
+function SignIn({signUpData}) {
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+
+
+  const nameChange = (evt) => {
+    setName(evt.target.value)
+  }
+  const surnameChange = (evt) => {
+    setSurname(evt.target.value)
+  }
+  const passwordChange = (evt) => {
+    setPassword(evt.target.value)
+  }
+  const emailChange = (evt) => {
+    setEmail(evt.target.value)
+  }
+
+
   return (
     <React.Fragment>
       <Grid container spacing={3}>
-      <Grid item xs={12}>
-        <TextField
-          required
-          id="email"
-          name="email"
-          label="Адрес электронной почты"
-          fullWidth
-          autoComplete="email"
-        />
-      </Grid>
-      <Grid item xs={12} sm={6}>
+        <Grid item xs={12}>
+          <TextField
+            required
+            id="email"
+            name="email"
+            label="Адрес электронной почты"
+            fullWidth
+            autoComplete="email"
+            onChange={emailChange}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <TextField
             required
             id="firstName"
@@ -30,6 +53,7 @@ export default function SignIn() {
             label="Имя"
             fullWidth
             autoComplete="fname"
+            onChange={nameChange}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -40,6 +64,7 @@ export default function SignIn() {
             label="Фамилия"
             fullWidth
             autoComplete="lname"
+            onChange={surnameChange}
           />
         </Grid>
         <Grid item xs={12}>
@@ -49,10 +74,11 @@ export default function SignIn() {
             name="password"
             label="Пароль"
             fullWidth
+            onChange={passwordChange}
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <Button>
+          <Button onClick = {() => signUpData(email, name, surname, password)}>
             Зарегистрироваться
           </Button>
         </Grid>
@@ -60,3 +86,22 @@ export default function SignIn() {
     </React.Fragment>
   );
 }
+
+function mapStateToProps(state) {
+  return {
+    user: state.userDataHandler
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    signUpData: (email, name, surname, password) => {
+      dispatch(signUpData(email, name, surname, password))
+    }
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignIn)

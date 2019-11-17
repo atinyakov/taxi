@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 
 import { connect } from 'react-redux';
-import {logout} from '../../action';
+import { logout } from '../../action';
 
 const useStyles = makeStyles(theme => ({
     title: {
