@@ -25,16 +25,20 @@ export const loginMiddleWare = store => next => action => {
                 });
 
                 if (response.ok) {
+                    console.log(response.message);
+
                     let oldData = localStorage.getItem('user')
                     if (oldData) {
 
                         user = {
-                            userDataHandler: {...JSON.parse(oldData).userDataHandler, ...user.userDataHandler}, 
-                            loginHandler: {...JSON.parse(oldData).loginHandler,  ...user.loginHandler}, 
+                            userDataHandler: { ...JSON.parse(oldData).userDataHandler, ...user.userDataHandler },
+                            loginHandler: { ...JSON.parse(oldData).loginHandler, ...user.loginHandler },
                         }
                     }
 
                     localStorage.setItem('user', JSON.stringify(user))
+                    return next(action);
+
                 }
             };
 
@@ -65,11 +69,13 @@ export const loginMiddleWare = store => next => action => {
                     let oldData = localStorage.getItem('user')
                     if (oldData) {
                         user = {
-                            userDataHandler: {...JSON.parse(oldData).userDataHandler, ...user.userDataHandler}, 
-                            loginHandler: {...JSON.parse(oldData).loginHandler,  ...user.loginHandler}, 
+                            userDataHandler: { ...JSON.parse(oldData).userDataHandler, ...user.userDataHandler },
+                            loginHandler: { ...JSON.parse(oldData).loginHandler, ...user.loginHandler },
                         }
                     }
-                    localStorage.setItem('user', JSON.stringify(user))
+                    localStorage.setItem('user', JSON.stringify(user));
+                    return next(action);
+
                 }
 
             };
@@ -96,14 +102,7 @@ export const loginMiddleWare = store => next => action => {
                 });
 
                 if (response.ok) {
-                    let oldData = localStorage.getItem('user')
-                    if (oldData) {
-                        user = {
-                            ...JSON.parse(oldData),
-                            ...user
-                        }
-                    }
-                    localStorage.setItem('user', JSON.stringify(user))
+                    return next(action);
                 }
 
             };
@@ -111,7 +110,43 @@ export const loginMiddleWare = store => next => action => {
             logout();
 
             break;
-    }
+            
 
-    return next(action);
+        case 'CARD_DATA':
+
+            let card = {
+                cardHolder: '',
+                cardNumber: '',
+                cardExp: '',
+                cvv: ''
+            };
+
+            async function addCard() {
+                let response = await fetch("https://loft-taxi.glitch.me/register", {
+                    body: JSON.stringify(card),
+                    method: 'POST',
+                    headers: {
+                        "content-Type": "application/json"
+                    }
+                });
+
+                if (response.ok) {
+                    let oldData = localStorage.getItem('card')
+                    if (oldData) {
+                        card = {
+                            ...JSON.parse(oldData),
+                            ...card
+                        }
+                    }
+                    localStorage.setItem('card', JSON.stringify(card))
+                    return next(action);
+
+                }
+
+            };
+
+            addCard();
+
+            break;
+    }
 }
