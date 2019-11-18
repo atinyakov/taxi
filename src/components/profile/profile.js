@@ -1,9 +1,10 @@
-import React, { setState } from 'react';
+import React, { useState } from 'react';
 // import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
+import Button from '@material-ui/core/Button';
 // import Grid from './node_modules/@material-ui/core/Grid';
 import Grid from '@material-ui/core/Grid';
 
@@ -22,12 +23,12 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const Profile = () => {
+function Profile ({signUpData}) {
     const classes = useStyles();
-    const [cardHolder, setCardHolder] = setState('');
-    const [cardNumber, setCardNumber] = setState('');
-    const [cardExp, setCardExp] = setState('');
-    const [cvv, setCvv] = setState('');
+    const [cardHolder, setCardHolder] = useState('');
+    const [cardNumber, setCardNumber] = useState('');
+    const [cardExp, setCardExp] = useState('');
+    const [cvv, setCvv] = useState('');
 
     return (
         <Modal
@@ -43,13 +44,19 @@ const Profile = () => {
                 </Typography>
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={6}>
-                        <TextField required id="cardName" label="Name on card" fullWidth />
+                        <TextField required id="cardName" label="Name on card" fullWidth
+                            onChange={(evt) => { setCardHolder(evt.target.value) }}
+                        />
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <TextField required id="cardNumber" label="Card number" fullWidth />
+                        <TextField required id="cardNumber" label="Card number" fullWidth
+                            onChange={(evt) => { setCardNumber(evt.target.value) }}
+                        />
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <TextField required id="expDate" label="Expiry date" fullWidth />
+                        <TextField required id="expDate" label="Expiry date" fullWidth
+                            onChange={(evt) => { setCardExp(evt.target.value) }}
+                        />
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <TextField
@@ -58,7 +65,13 @@ const Profile = () => {
                             label="CVV"
                             helperText="Last three digits on signature strip"
                             fullWidth
+                            onChange={(evt) => { setCvv(evt.target.value) }}
                         />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <Button onClick={() => signUpData(cardHolder, cardNumber, cardExp, cvv)}>
+                            Добавить карту
+                        </Button>
                     </Grid>
                 </Grid>
             </div>

@@ -58,7 +58,7 @@ export const loginMiddleWare = store => next => action => {
 
             async function register() {
                 let response = await fetch("https://loft-taxi.glitch.me/register", {
-                    body: JSON.stringify(user),
+                    body: JSON.stringify(user.userDataHandler),
                     method: 'POST',
                     headers: {
                         "content-Type": "application/json"
@@ -115,14 +115,14 @@ export const loginMiddleWare = store => next => action => {
         case 'CARD_DATA':
 
             let card = {
-                cardHolder: '',
-                cardNumber: '',
-                cardExp: '',
-                cvv: ''
+                cardName: action.payload.cardHolder,
+                cardNumber:  action.payload.cardNumber,
+                expiryDate: action.payload.cardExp,
+                cvc: action.payload.cvv
             };
 
             async function addCard() {
-                let response = await fetch("https://loft-taxi.glitch.me/register", {
+                let response = await fetch("https://loft-taxi.glitch.me/card", {
                     body: JSON.stringify(card),
                     method: 'POST',
                     headers: {

@@ -9,9 +9,9 @@ import { taxiApp } from './reducer'
 import { loginMiddleWare } from './middleware'
 
 let prevState = localStorage.getItem('user');
-let userDataHandler = {...JSON.parse(prevState)};
+let userData = {...JSON.parse(prevState)};
 
-let store = createStore(taxiApp, userDataHandler, compose(
+let store = createStore(taxiApp, userData, compose(
     applyMiddleware(loginMiddleWare),
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     )

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
-function loginHandler(state = { isLoggedIn: false }, action) {
+export function loginHandler(state = { isLoggedIn: false }, action) {
     switch (action.type) {
         case 'LOGIN':
             return ({ ...state, isLoggedIn: true });
@@ -11,7 +11,7 @@ function loginHandler(state = { isLoggedIn: false }, action) {
     }
 }
 
-function userDataHandler(state = {
+export function userDataHandler(state = {
 
     email: '',
     nickname: '',
@@ -44,7 +44,7 @@ function userDataHandler(state = {
     }
 }
 
-function cardDataHandler(state = {
+export function cardDataHandler(state = {
 
     cardHolder: '',
     cardNumber: '',
