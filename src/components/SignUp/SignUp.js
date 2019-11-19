@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { userContext } from '../context';
+// import { userContext } from '../context';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { loginData, login} from '../../action';
 
-
-
-export default function SignUp() {
+function SignUp(props) {
   const [username, setUsername] = React.useState();
   const [password, setPassword] = React.useState();
 
@@ -19,9 +19,12 @@ export default function SignUp() {
     setPassword(evt.target.value)
   }
 
-  const { handleLogin } = useContext(userContext);
+  // const { login } = useContext(userContext);
+  const { loginData, login } = props;
+  // console.log('loginData', loginData)
 
   return (
+
 
     <React.Fragment>
       {/* <form onSubmit={(evt) => {
@@ -52,7 +55,10 @@ export default function SignUp() {
         <Grid item xs={12} md={6}>
           <Link to="map">
             <Button
-              onClick={() => handleLogin(username, password)}
+              onClick={() => {
+                loginData(username, password);
+                login()
+              }}
             >
               Войти
             </Button>
@@ -64,3 +70,25 @@ export default function SignUp() {
   );
 
 }
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.userDataHandler
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginData: (username, password) => {
+      dispatch(loginData(username, password))
+    },
+    login: () => {
+      dispatch(login());
+    }
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignUp)
