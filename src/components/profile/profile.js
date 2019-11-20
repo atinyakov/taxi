@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
 import { connect } from 'react-redux';
-import { signUpData } from '../../action';
+import { CARD } from '../../action';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -69,7 +69,7 @@ function Profile ({signUpData}) {
                         />
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <Button onClick={() => signUpData(cardHolder, cardNumber, cardExp, cvv)}>
+                        <Button onClick={() => CARD(cardHolder, cardNumber, cardExp, cvv)}>
                             Добавить карту
                         </Button>
                     </Grid>
@@ -89,7 +89,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         signUpData: (cardHolder, cardNumber, cardExp, cvv) => {
-            dispatch(signUpData(cardHolder, cardNumber, cardExp, cvv))
+            dispatch(CARD(cardHolder, cardNumber, cardExp, cvv))
         }
     }
 }

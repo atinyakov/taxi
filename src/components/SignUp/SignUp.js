@@ -56,8 +56,8 @@ function SignUp(props) {
           <Link to="map">
             <Button
               onClick={() => {
-                loginData(username, password);
-                login()
+                login(username, password);
+                // login()
               }}
             >
               Войти
@@ -82,8 +82,8 @@ const mapDispatchToProps = (dispatch) => {
     loginData: (username, password) => {
       dispatch(loginData(username, password))
     },
-    login: () => {
-      dispatch(login());
+    login: (username, password) => {
+      dispatch(login(username, password));
     }
   }
 }

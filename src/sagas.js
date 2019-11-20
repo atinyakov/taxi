@@ -1,8 +1,10 @@
-import { call, all, takeLatest, takeEvery } from 'redux-saga/effects';
+import { call, all, takeLatest, takeEvery, put } from 'redux-saga/effects';
 import { login, logout, loginData, signUpData, cardData } from './action';
 
-let user = {
-    userDataHandler: {
+let data = {
+    user: {
+        name: '',
+        surname: '',
         email: '',
         password: ''
     },
@@ -17,13 +19,13 @@ let user = {
 };
 
 function postData(email, password) {
-    user = {
-        ...user,
-        userDataHandler: {...user.userDataHandler}, email, password
+    data = {
+        email:email,
+        password: password
     }
 
-    fetch("https://loft-taxi.glitch.me/auth", {
-        body: JSON.stringify(user),
+    return fetch("https://loft-taxi.glitch.me/auth", {
+        body: JSON.stringify({email, password}),
         method: 'POST',
         headers: {
             "content-Type": "application/json"
@@ -33,32 +35,32 @@ function postData(email, password) {
     });
 }
 
-export function* handleUpload() {
-    yield takeEvery('LOGIN_DATA', function* () {
-        const result = yield call(postData);
-        console.log(result)
+export function* handleSignUp() {
+    yield takeEvery('SIGNIN', function* (action) {
+        // yield call(postData, action);
+        yield put({ type: 'SIGNIN_DATA', payload: action.payload });
     });
 }
 
-// export function* dataSaga() {
-//     console.log('Hello Sagas!')
-// }
+export function* handleLogin() {
+    yield takeEvery('LOGIN', function* (action) {
+        const responce = yield call(postData, action.payload);
+        console.log(responce) // не работает
+        yield put({ type: 'LOGIN_DATA', payload: action.payload });
+    });
+}
 
-// function* watchRegister() {
-//     yield takeEvery('INCREMENT_ASYNC', incrementAsync)
-// }
-
-// export function* postData(action) {
-//     try {
-//         const data = yield call(Api.fetchUser, action.payload.url)
-//         yield put({ type: "FETCH_SUCCEEDED", data })
-//     } catch (error) {
-//         yield put({ type: "FETCH_FAILED", error })
-//     }
-// }
-
+export function* handleCard() {
+    yield takeEvery('CARD', function* (action) {
+        const responce = yield call(postData, action.payload);
+        console.log(responce) // не работает
+        yield put({ type: 'CARD_DATA', payload: action.payload });
+    });
+}
 export function* dataSaga() {
     yield all([
-        handleUpload(),
+        handleSignUp(),
+        handleLogin(),
+        handleCard()
     ])
 }

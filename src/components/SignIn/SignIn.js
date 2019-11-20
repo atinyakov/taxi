@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 // import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
-import { signUpData } from '../../action';
+import { signUpData, SIGNIN } from '../../action';
 
 
 
@@ -78,7 +78,7 @@ function SignIn({signUpData}) {
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <Button onClick = {() => signUpData(email, name, surname, password)}>
+          <Button onClick = {() => SIGNIN(email, name, surname, password)}>
             Зарегистрироваться
           </Button>
         </Grid>
@@ -95,8 +95,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    signUpData: (email, name, surname, password) => {
-      dispatch(signUpData(email, name, surname, password))
+    SIGNIN: (email, name, surname, password) => {
+      dispatch(SIGNIN(email, name, surname, password))
     }
   }
 }

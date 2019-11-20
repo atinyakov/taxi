@@ -1,76 +1,45 @@
 import { combineReducers } from 'redux';
 
-export function loginHandler(state = { isLoggedIn: false }, action) {
-    switch (action.type) {
-        case 'LOGIN':
-            return ({ ...state, isLoggedIn: true });
-        case 'LOGOUT':
-            return ({ ...state, isLoggedIn: false });
-        default:
-            return state;
+let initState = {
+    user: {
+        name: '',
+        surname: '',
+        email: '',
+        password: ''
+    },
+    isLogin: false,
+    card: {
+        cardHolder: '',
+        cardNumber: '',
+        expiryDate: '',
+        cvc: ''
     }
 }
-
-export function userDataHandler(state = {
-
-    email: '',
-    nickname: '',
-    name: '',
-    surname: '',
-    password: ''
-
-}, action) {
+export function loginHandler(state = initState, action) {
     switch (action.type) {
         case 'LOGIN_DATA':
             return ({
                 ...state,
-
-                nickname: action.payload.nickname,
-                password: action.payload.password
-
+                user: { ...state.user, email: action.payload.email, password: action.payload.password},
+                isLogin: true
             });
+        case 'LOGOUT':
+            return ({ ...state, isLogin: false });
         case 'SIGNIN_DATA':
             return ({
                 ...state,
-
-                email: action.payload.email,
-                name: action.payload.name,
-                surname: action.payload.surname,
-                password: action.payload.password
+                user: { ...state.user , name: action.payload.name, password: action.payload.password, email: action.payload.email, surname: action.payload.surname}
 
             });
-        default:
-            return state;
-    }
-}
-
-export function cardDataHandler(state = {
-
-    cardHolder: '',
-    cardNumber: '',
-    cardExp: '',
-    cvv: ''
-
-}, action) {
-    switch (action.type) {
         case 'CARD_DATA':
             return ({
                 ...state,
 
+                card: { ...state.card },
                 cardHolder: action.payload.cardHolder,
                 cardNumber: action.payload.cardNumber,
-                cardExp: action.payload.cardExp,
-                cvv: action.payload.cvv,
-
-            });
-        case 'SIGNIN_DATA':
-            return ({
-                ...state,
-
-                email: action.payload.email,
-                name: action.payload.name,
-                surname: action.payload.surname,
-                password: action.payload.password
+                expiryDate: action.payload.cardExp,
+                cvc: action.payload.cvv,
 
             });
         default:
@@ -78,10 +47,8 @@ export function cardDataHandler(state = {
     }
 }
 
-
-
 export const taxiApp = combineReducers({
-    loginHandler,
-    userDataHandler,
-    cardDataHandler
+    loginHandler
+    // userDataHandler,
+    // cardDataHandler
 })
