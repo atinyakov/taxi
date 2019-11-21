@@ -10,7 +10,7 @@ import { signUpData, SIGNIN } from '../../action';
 
 
 
-function SignIn({signUpData}) {
+function SignIn({SIGNIN}) {
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [password, setPassword] = useState('');
@@ -78,7 +78,7 @@ function SignIn({signUpData}) {
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <Button onClick = {() => SIGNIN(email, name, surname, password)}>
+          <Button onClick = {() => SIGNIN(email, password, name, surname)}>
             Зарегистрироваться
           </Button>
         </Grid>

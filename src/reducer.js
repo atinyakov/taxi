@@ -13,23 +13,25 @@ let initState = {
         cardNumber: '',
         expiryDate: '',
         cvc: ''
-    }
+    },
+    token: ''
 }
 export function loginHandler(state = initState, action) {
     switch (action.type) {
         case 'LOGIN_DATA':
             return ({
                 ...state,
-                user: { ...state.user, email: action.payload.email, password: action.payload.password},
-                isLogin: true
+                user: { ...state.user, email: action.payload.email, password: action.payload.password },
+                isLogin: true,
+                token: action.payload.token
             });
         case 'LOGOUT':
             return ({ ...state, isLogin: false });
         case 'SIGNIN_DATA':
             return ({
                 ...state,
-                user: { ...state.user , name: action.payload.name, password: action.payload.password, email: action.payload.email, surname: action.payload.surname}
-
+                user: { ...state.user, name: action.payload.name, password: action.payload.password, email: action.payload.email, surname: action.payload.surname },
+                token: action.payload.token
             });
         case 'CARD_DATA':
             return ({
@@ -42,6 +44,8 @@ export function loginHandler(state = initState, action) {
                 cvc: action.payload.cvv,
 
             });
+        case 'ERROR':
+            return state;
         default:
             return state;
     }

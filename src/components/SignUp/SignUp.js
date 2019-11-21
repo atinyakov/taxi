@@ -5,9 +5,9 @@ import Button from '@material-ui/core/Button';
 // import { userContext } from '../context';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { loginData, login} from '../../action';
+import { login } from '../../action';
 
-function SignUp(props) {
+function SignUp({ login }) {
   const [username, setUsername] = React.useState();
   const [password, setPassword] = React.useState();
 
@@ -20,7 +20,7 @@ function SignUp(props) {
   }
 
   // const { login } = useContext(userContext);
-  const { loginData, login } = props;
+  // const { login } = props;
   // console.log('loginData', loginData)
 
   return (
@@ -55,7 +55,8 @@ function SignUp(props) {
         <Grid item xs={12} md={6}>
           <Link to="map">
             <Button
-              onClick={() => {
+              onClick={evt => {
+                evt.preventDefault();
                 login(username, password);
                 // login()
               }}
@@ -79,9 +80,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginData: (username, password) => {
-      dispatch(loginData(username, password))
-    },
     login: (username, password) => {
       dispatch(login(username, password));
     }
