@@ -5,3 +5,4 @@ export const loginData = (email, password) => ({ type: 'LOGIN_DATA', payload: { 
 export const signUpData = (email, password, name, surname) => ({ type: 'SIGNIN_DATA', payload: { email, password, name, surname } });
 export const cardData = (cardHolder, cardNumber, cardExp, cvv) => ({ type: 'CARD_DATA', payload: { cardHolder, cardNumber, cardExp, cvv } });
 export const CARD = (cardHolder, cardNumber, cardExp, cvv) => ({ type: 'CARD', payload: { cardHolder, cardNumber, cardExp, cvv } });
+export const GET_CARD = (token) => ({type: 'GET_CARD'});

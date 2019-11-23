@@ -7,7 +7,7 @@ let initState = {
         email: '',
         password: ''
     },
-    isLogin: false,
+    isLoggedIn: false,
     card: {
         cardHolder: '',
         cardNumber: '',
@@ -22,11 +22,11 @@ export function loginHandler(state = initState, action) {
             return ({
                 ...state,
                 user: { ...state.user, email: action.payload.email, password: action.payload.password },
-                isLogin: true,
+                isLoggedIn: true,
                 token: action.payload.token
             });
         case 'LOGOUT':
-            return ({ ...state, isLogin: false });
+            return ({ ...state, isLoggedIn: false });
         case 'SIGNIN_DATA':
             return ({
                 ...state,

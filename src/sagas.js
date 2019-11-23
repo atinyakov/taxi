@@ -18,7 +18,7 @@ import { login, logout, loginData, signUpData, cardData } from './action';
 //     token: ''
 // };
 
-function postAuth(email, password) {
+function postAuth({email, password}) {
     let data = JSON.stringify({ email, password });
 
     return fetch("https://loft-taxi.glitch.me/auth", {
@@ -30,7 +30,7 @@ function postAuth(email, password) {
     }).then(responce => responce.json());
 }
 
-function postCard(name, surname, expiryDate, cvc) {
+function postCard({name, surname, expiryDate, cvc}) {
     let data = JSON.stringify({ name, surname, expiryDate, cvc });
 
     return fetch("https://loft-taxi.glitch.me/card", {
@@ -41,6 +41,17 @@ function postCard(name, surname, expiryDate, cvc) {
         }
     }).then(responce => responce.json());
 }
+
+// function getCard(name, surname, expiryDate, cvc) {
+//     let data = JSON.stringify({ name, surname, expiryDate, cvc });
+
+//     return fetch(`https://loft-taxi.glitch.me/card?token=${token}`, {
+//         method: 'GET',
+//         headers: {
+//             "content-Type": "application/json"
+//         }
+//     }).then(responce => responce.json());
+// }
 
 function postRegister({ email, password, name, surname }) {
     let data = JSON.stringify({ email, password, name, surname });
@@ -71,6 +82,7 @@ export function* authorizationSaga() {
         const responce = yield call(postAuth, action.payload);
         if (responce.success) {
             yield put({ type: 'LOGIN_DATA', payload: { ...action.payload, token: responce.token } })
+            yield put({ type: 'GET_CARD', payload: { ...action.payload, token: responce.token } })
         } else {
             console.log('ERROR')
         }

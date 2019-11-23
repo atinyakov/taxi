@@ -108,7 +108,7 @@ function Popup({ isLoggedIn }) {
 
 const mapStateToProps = (state) => {
   return {
-    isLoggedIn: state.loginHandler.isLogin
+    isLoggedIn: state.loginHandler.isLoggedIn
   }
 }
 
