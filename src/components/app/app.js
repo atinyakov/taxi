@@ -6,12 +6,12 @@ import Profile from "../Profile";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 
-const App = ({isAuthorized}) => {
+const App = ({isLoggedIn}) => {
     return (
       <>
         <Header />
 
-        <LoginPage />
+        <LoginPage isLoggedIn = {isLoggedIn} />
 
         <Route path='/' exact component={Popup} />
         <Route path='/map' component={Map} />

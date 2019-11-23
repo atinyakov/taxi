@@ -7,7 +7,7 @@ import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 // import Grid from './node_modules/@material-ui/core/Grid';
 import Grid from "@material-ui/core/Grid";
-
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { POST_CARD } from "../../action";
 
@@ -29,6 +29,7 @@ function Profile({ token, POST_CARD }) {
   const [cardNumber, setCardNumber] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [cvc, setCvc] = useState("");
+//   const [ open, setOpen] = useState('false')
 
   return (
     <Modal
@@ -95,6 +96,7 @@ function Profile({ token, POST_CARD }) {
             >
               Добавить карту
             </Button>
+            <Link to="/map" > Закрыть </Link>
           </Grid>
         </Grid>
       </div>

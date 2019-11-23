@@ -71,30 +71,30 @@ describe('reducers', () => {
         })
     })
 
-    it('CARD_DATA', () => {
+    it('SAVE_CARD', () => {
         const action = {
-            type: 'CARD_DATA',
+            type: 'SAVE_CARD',
             payload: {
                 cardHolder: 'Ivan Petrov',
                 cardNumber: '124 567 6543',
-                cardExp: '202020',
-                cvv: '123'
+                expiryDate: '202020',
+                cvc: '123'
             }
         };
 
         const initalState = {
             cardHolder: '',
             cardNumber: '',
-            cardExp: '',
-            cvv: ''
+            expiryDate: '',
+            cvc: ''
         }
 
         expect(cardDataHandler(initalState, action)).toEqual({
             ...initalState,
             cardHolder: 'Ivan Petrov',
             cardNumber: '124 567 6543',
-            cardExp: '202020',
-            cvv: '123'
+            expiryDate: '202020',
+            cvc: '123'
         })
     })
 

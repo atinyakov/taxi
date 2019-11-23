@@ -103,9 +103,13 @@ export function* paymentSaga() {
     if (responce.success) {
       yield put({
         type: "SAVE_CARD",
-        payload: { ...action.payload, token: responce.token }
+        payload: {
+          cardNumber: responce.cardNumber,
+          expiryDate: responce.expiryDate,
+          cardName: responce.cardName,
+          cvc: responce.cvc
+        }
       });
-      console.log("CARD SAVED");
     } else {
       console.log("ERROR");
     }
@@ -115,10 +119,16 @@ export function* paymentSaga() {
 function* cardSaga() {
   yield takeEvery("GET_CARD", function*(action) {
     const responce = yield call(getCard, action.payload);
-    if (responce.id ) {
+
+    if (responce.id !== "undefined") {
       yield put({
         type: "SAVE_CARD",
-        payload: { ...action.payload, token: responce.token }
+        payload: {
+          cardNumber: responce.cardNumber,
+          expiryDate: responce.expiryDate,
+          cardName: responce.cardName,
+          cvc: responce.cvc
+        }
       });
     } else {
       console.log("NO CARD");

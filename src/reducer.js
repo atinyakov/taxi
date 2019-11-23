@@ -9,7 +9,7 @@ let initState = {
     },
     isLoggedIn: false,
     card: {
-        cardHolder: '',
+        cardName: '',
         cardNumber: '',
         expiryDate: '',
         cvc: ''
@@ -33,15 +33,15 @@ export function loginHandler(state = initState, action) {
                 user: { ...state.user, name: action.payload.name, password: action.payload.password, email: action.payload.email, surname: action.payload.surname },
                 token: action.payload.token
             });
-        case 'CARD_DATA':
+        case 'SAVE_CARD':
             return ({
                 ...state,
 
-                card: { ...state.card },
-                cardHolder: action.payload.cardHolder,
+                card: { ...state.card ,
+                cardName: action.payload.cardName,
                 cardNumber: action.payload.cardNumber,
-                expiryDate: action.payload.cardExp,
-                cvc: action.payload.cvv,
+                expiryDate: action.payload.expiryDate,
+                cvc: action.payload.cvc}
 
             });
         case 'ERROR':
