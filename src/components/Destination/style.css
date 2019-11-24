@@ -1,0 +1,10 @@
+.destination {
+    width: 400px;
+    /* height: 400px; */
+    top: 10%;
+    position: absolute;
+    background-color: #fff;
+    left: calc(50% - 350px);
+    z-index: 10;
+    padding: 20px;
+}

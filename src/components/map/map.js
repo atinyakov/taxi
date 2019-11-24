@@ -5,11 +5,12 @@ import MapGL from "react-map-gl";
 import nanoid from "nanoid/non-secure";
 import DeckGL, { GeoJsonLayer } from "deck.gl";
 import Geocoder from "react-map-gl-geocoder";
-
+import Destination from "../Destination";
+import { connect } from "react-redux";
 const token = `pk.eyJ1IjoiYWtvZmYiLCJhIjoiY2syNTd3NHRvMTQzcTNtbXp4ZnAxNWs5YyJ9.ELtn_IIvz8p_0R6ujfH8Hw`;
 // const token = process.env.REACT_APP_TOKEN
 
-class Map extends Component {
+export class Map extends Component {
   state = {
     viewport: {
       latitude: 0,
@@ -50,11 +51,47 @@ class Map extends Component {
     });
   };
 
+  drawRoute = (map, coordinates) => {
+    map.flyTo({
+      center: coordinates[0],
+      zoom: 15
+    });
+    map.addLayer({
+      id: "route",
+      type: "line",
+      source: {
+        type: "geojson",
+        data: {
+          type: "Feature",
+          properties: {},
+          geometry: {
+            type: "LineString",
+            coordinates
+          }
+        }
+      },
+      layout: {
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      paint: {
+        "line-color": "#ffc617",
+        "line-width": 8
+      }
+    });
+  };
+  
+
+  componentDidUpdate() {
+    this.drawRoute(this.mapRef, this.props.coordinates)
+  }
+
   render() {
     const { id, viewport, searchResultLayer } = this.state;
+
     return (
       <div style={{ height: "100vh" }}>
-        <h1
+        <div
           style={{
             textAlign: "center",
             fontSize: "25px",
@@ -63,7 +100,8 @@ class Map extends Component {
         >
           Use the search bar to find a location or click <a href='/'>here</a> to
           find your location
-        </h1>
+          <Destination />
+        </div>
         <MapGL
           ref={this.mapRef}
           {...viewport}
@@ -88,4 +126,13 @@ class Map extends Component {
   }
 }
 
-export default Map;
+// export default Map;
+
+const mapStateToProps = state => {
+  return {
+    coordinates: state.loginHandler.route
+  };
+};
+
+
+export default connect(mapStateToProps)(Map);

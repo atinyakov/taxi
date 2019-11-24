@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 // import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
-import { signUpData, SIGNIN } from '../../action';
+import { SIGNIN } from '../../action';
 
 
 
