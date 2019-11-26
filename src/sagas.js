@@ -62,9 +62,9 @@ function getAddressList() {
   }).then(responce => responce.json());
 }
 
-function getRoute({address1, address2}) {
-  console.log('getRoute');
-  
+function getRoute({ address1, address2 }) {
+  console.log("getRoute");
+
   return fetch(
     `https://loft-taxi.glitch.me/route?address1=${address1}&address2=${address2}`,
     {
@@ -118,9 +118,9 @@ export function* addressListSaga() {
 }
 
 export function* routeSaga() {
-  console.log('routeSAGA')
+  console.log("routeSAGA");
   yield takeEvery("GET_ROUTE", function*(action) {
-    console.log('here');
+    console.log("here");
     const responce = yield call(getRoute, action.payload);
     if (responce.length) {
       yield put({
@@ -202,24 +202,3 @@ export function* dataSaga() {
     routeSaga()
   ]);
 }
-
-// export function* rootSaga() {
-//     yield all([
-//         sagaLogger(),
-//         yield takeEvery(fetchAddressListRequest, sagaGetAddressList),
-//         yield takeEvery(fetchGetCardRequest, sagaGetCard),
-//         yield takeEvery(fetchGetRouteListRequest, sagaGetRoute),
-//         yield takeEvery(fetchAuthRequest, sagaPostAuth),
-//         yield takeEvery(fetchRegisterRequest, sagaPostRegister),
-//         yield takeEvery(fetchPostCardRequest, sagaPostCard),
-//     ])
-// }
-
-// export function* sagaGetRoute(action) {
-//     try {
-//         const result = yield call(callGetRoute, action)
-//         yield put(fetchGetRouteListSuccess(result))
-//     } catch (error) {
-//         yield put(fetchGetRouteListFailure(error))
-//     }
-// }
