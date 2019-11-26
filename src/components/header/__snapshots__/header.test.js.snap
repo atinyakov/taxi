@@ -15,48 +15,60 @@ exports[`Header matches snapshot 1`] = `
         >
           Loft Taxi
         </h6>
-        <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
-          tabindex="0"
-          type="button"
+        <a
+          href="/map"
         >
-          <span
-            class="MuiButton-label"
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
+            tabindex="0"
+            type="button"
           >
-            Карта
-          </span>
-          <span
-            class="MuiTouchRipple-root"
-          />
-        </button>
-        <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
-          tabindex="0"
-          type="button"
+            <span
+              class="MuiButton-label"
+            >
+              Карта
+            </span>
+            <span
+              class="MuiTouchRipple-root"
+            />
+          </button>
+        </a>
+        <a
+          href="/profile"
         >
-          <span
-            class="MuiButton-label"
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
+            tabindex="0"
+            type="button"
           >
-            Профиль
-          </span>
-          <span
-            class="MuiTouchRipple-root"
-          />
-        </button>
-        <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
-          tabindex="0"
-          type="button"
+            <span
+              class="MuiButton-label"
+            >
+              Профиль
+            </span>
+            <span
+              class="MuiTouchRipple-root"
+            />
+          </button>
+        </a>
+        <a
+          href="/map"
         >
-          <span
-            class="MuiButton-label"
+          <button
+            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-colorInherit"
+            tabindex="0"
+            type="button"
           >
-            Выйти
-          </span>
-          <span
-            class="MuiTouchRipple-root"
-          />
-        </button>
+            <span
+              class="MuiButton-label"
+            >
+              Войти
+            </span>
+            <span
+              class="MuiTouchRipple-root"
+            />
+          </button>
+        </a>
       </div>
     </header>
   </div>

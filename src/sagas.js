@@ -18,7 +18,7 @@ import { login, logout, loginData, signUpData, cardData } from "./action";
 //     token: ''
 // };
 
-function postAuth({ email, password }) {
+export function postAuth({ email, password }) {
   let data = JSON.stringify({ email, password });
 
   return fetch("https://loft-taxi.glitch.me/auth", {
@@ -30,7 +30,7 @@ function postAuth({ email, password }) {
   }).then(responce => responce.json());
 }
 
-function postCard({ cardNumber, expiryDate, cardName, cvc, token }) {
+export function postCard({ cardNumber, expiryDate, cardName, cvc, token }) {
   let data = JSON.stringify({ cardNumber, expiryDate, cardName, cvc, token });
 
   return fetch("https://loft-taxi.glitch.me/card", {
@@ -53,13 +53,25 @@ function getCard({ token }) {
   }).then(responce => responce.json());
 }
 
-function getAddressList() {
+export function getAddressList() {
   return fetch(`https://loft-taxi.glitch.me/addressList`, {
     method: "GET",
     headers: {
       "content-Type": "application/json"
     }
   }).then(responce => responce.json());
+}
+
+export function* fetchAddressList (action) {
+  const responce = yield call(getAddressList);
+  if (responce.addresses) {
+    yield put({
+      type: "SAVE_ADDRESSES",
+      payload: { ...action.payload, addresses: responce.addresses }
+    });
+  } else {
+    console.log("ERROR");
+  }
 }
 
 function getRoute({ address1, address2 }) {
@@ -76,7 +88,7 @@ function getRoute({ address1, address2 }) {
   ).then(responce => responce.json());
 }
 
-function postRegister({ email, password, name, surname }) {
+export function postRegister({ email, password, name, surname }) {
   let data = JSON.stringify({ email, password, name, surname });
   return fetch("https://loft-taxi.glitch.me/register", {
     body: data,
@@ -103,18 +115,7 @@ export function* registrationSaga() {
 }
 
 export function* addressListSaga() {
-  yield takeEvery("GET_ADDRESSES", function*(action) {
-    // console.log(action.payload);
-    const responce = yield call(getAddressList);
-    if (responce.addresses) {
-      yield put({
-        type: "SAVE_ADDRESSES",
-        payload: { ...action.payload, addresses: responce.addresses }
-      });
-    } else {
-      console.log("ERROR");
-    }
-  });
+  yield takeEvery("GET_ADDRESSES", fetchAddressList);
 }
 
 export function* routeSaga() {

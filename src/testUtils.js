@@ -5,7 +5,7 @@ export async function recordSaga (saga, initalAction) {
 
     await ranSaga(
         {
-            dispath: (action) => dispatched.push(action);
+            dispath: (action) => dispatched.push(action)
         },
         saga,
         initalAction

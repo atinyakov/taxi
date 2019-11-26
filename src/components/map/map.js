@@ -30,13 +30,13 @@ class Map extends Component {
       zoom: this.state.zoom
     });
 
-    this.map.on("move", () => {
-      this.setState({
-        lng: this.map.getCenter().lng.toFixed(4),
-        lat: this.map.getCenter().lat.toFixed(4),
-        zoom: this.map.getZoom().toFixed(2)
-      });
-    });
+    // this.map.on("move", () => {
+    //   this.setState({
+    //     lng: this.map.getCenter().lng.toFixed(4),
+    //     lat: this.map.getCenter().lat.toFixed(4),
+    //     zoom: this.map.getZoom().toFixed(2)
+    //   });
+    // });
   }
 
   componentDidUpdate() {
