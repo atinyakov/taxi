@@ -8,7 +8,6 @@ import { connect } from "react-redux";
 import mapboxgl from "mapbox-gl";
 import "./style.css";
 mapboxgl.accessToken = `pk.eyJ1IjoiYWtvZmYiLCJhIjoiY2syNTd3NHRvMTQzcTNtbXp4ZnAxNWs5YyJ9.ELtn_IIvz8p_0R6ujfH8Hw`;
-
 class Map extends Component {
   // Code from the next few steps will go here
   constructor(props) {
@@ -18,31 +17,49 @@ class Map extends Component {
       lat: 34,
       zoom: 2
     };
+    this.map = null;
   }
-
-  map = '';
-
+ 
   componentDidMount() {
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
-      style: "mapbox://styles/mapbox/streets-v11",
-      center: [this.state.lng, this.state.lat],
-      zoom: this.state.zoom
-    });
-
-    // this.map.on("move", () => {
-    //   this.setState({
-    //     lng: this.map.getCenter().lng.toFixed(4),
-    //     lat: this.map.getCenter().lat.toFixed(4),
-    //     zoom: this.map.getZoom().toFixed(2)
-    //   });
-    // });
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [30.273032, 59.798668],
+      zoom: 8
+  })
   }
-
   componentDidUpdate() {
-    drawRoute(this.map, this.props.coordinates)
+    this.drawRoute(this.map, this.props.coordinates)
   }
-
+  drawRoute = (map, coordinates) => {
+    this.map.flyTo({
+      center: coordinates[0],
+      zoom: 15
+    });
+    map.addLayer({
+      id: "route",
+      type: "line",
+      source: {
+        type: "geojson",
+        data: {
+          type: "Feature",
+          properties: {},
+          geometry: {
+            type: "LineString",
+            coordinates
+          }
+        }
+      },
+      layout: {
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      paint: {
+        "line-color": "#ffc617",
+        "line-width": 8
+      }
+    });
+  };
   render() {
     return (
       <div>
@@ -52,43 +69,10 @@ class Map extends Component {
     );
   }
 }
-
-export const drawRoute = (map, coordinates) => {
-  map.flyTo({
-    center: coordinates[0],
-    zoom: 15
-  });
-  map.addLayer({
-    id: "route",
-    type: "line",
-    source: {
-      type: "geojson",
-      data: {
-        type: "Feature",
-        properties: {},
-        geometry: {
-          type: "LineString",
-          coordinates
-        }
-      }
-    },
-    layout: {
-      "line-join": "round",
-      "line-cap": "round"
-    },
-    paint: {
-      "line-color": "#ffc617",
-      "line-width": 8
-    }
-  });
-};
-
 // export default Map;
-
 const mapStateToProps = state => {
   return {
     coordinates: state.loginHandler.route
   };
 };
-
 export default connect(mapStateToProps)(Map);

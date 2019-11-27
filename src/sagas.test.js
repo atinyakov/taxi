@@ -4,7 +4,7 @@ import {
   authorizationSaga,
   paymentSaga,
   cardSaga,
-  addressListSaga, fetchAddressList,
+  addressListSaga,
   getAddressList,
   routeSaga
 } from "./sagas";
@@ -15,7 +15,7 @@ import { GET_ADDRESSES } from "./action";
 describe("SAGAS", () => {
   it('should dispatch action "GET_ADDRESSES" ', () => {
     const generator = addressListSaga();
-    expect(generator.next().value).toEqual(takeEvery("GET_ADDRESSES", fetchAddressList));
+    expect(generator.next().value).toEqual(call(getAddressList));
     expect(generator.next().done).toBeTruthy();
   });
 });
