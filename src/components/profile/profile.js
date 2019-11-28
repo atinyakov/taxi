@@ -106,7 +106,7 @@ function Profile({ token, POST_CARD }) {
 
 const mapStateToProps = state => {
   return {
-    token: state.loginHandler.token
+    token: state.token
   };
 };
 

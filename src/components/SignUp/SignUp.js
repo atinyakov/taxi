@@ -74,7 +74,7 @@ function SignUp({ login }) {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.userDataHandler
+    user: state.user
   }
 }
 

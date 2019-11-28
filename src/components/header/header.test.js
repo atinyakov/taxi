@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import Header from "./Header";
 
 import { Provider } from "react-redux";
-import { taxiApp } from "../../reducer";
+import loginHandler from "../../reducer";
 import createSagaMiddleware from "redux-saga";
 
 import { createStore, compose, applyMiddleware } from "redux";
@@ -16,7 +16,7 @@ let userData = { ...JSON.parse(prevState) };
 const sagaMiddleware = createSagaMiddleware();
 
 let store = createStore(
-  taxiApp,
+  loginHandler,
   userData,
   compose(applyMiddleware(sagaMiddleware))
 );

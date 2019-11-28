@@ -72,7 +72,7 @@ class Map extends Component {
 // export default Map;
 const mapStateToProps = state => {
   return {
-    coordinates: state.loginHandler.route
+    coordinates: state.route
   };
 };
 export default connect(mapStateToProps)(Map);

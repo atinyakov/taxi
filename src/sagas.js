@@ -1,22 +1,4 @@
-import { call, all, takeLatest, takeEvery, put } from "redux-saga/effects";
-import { login, logout, loginData, signUpData, cardData } from "./action";
-
-// let data = {
-//     user: {
-//         name: '',
-//         surname: '',
-//         email: '',
-//         password: ''
-//     },
-//     loginHandler: {
-//         isLoggedIn: true
-//     },
-//     card: {
-//         expiryDate: '',
-//         cvc: ''
-//     },
-//     token: ''
-// };
+import { call, all, takeEvery, put } from "redux-saga/effects";
 
 export function postAuth({ email, password }) {
   let data = JSON.stringify({ email, password });
@@ -42,7 +24,7 @@ export function postCard({ cardNumber, expiryDate, cardName, cvc, token }) {
   }).then(responce => responce.json());
 }
 
-function getCard({ token }) {
+export function getCard({ token }) {
   // let data = JSON.stringify({ name, surname, expiryDate, cvc });
 
   return fetch(`https://loft-taxi.glitch.me/card?token=${token}`, {
@@ -62,7 +44,7 @@ export function getAddressList() {
   }).then(responce => responce.json());
 }
 
-function getRoute({ address1, address2 }) {
+export function getRoute({ address1, address2 }) {
   // console.log("getRoute");
 
   return fetch(
@@ -95,8 +77,8 @@ export function* registrationSaga(action) {
     // if (responce.success) {
       yield put({
         type: "SIGNIN_DATA",
-        // payload: { ...action.payload, token: responce }
-        payload: { ...action.payload }
+        payload: { ...action.payload, token: responce }
+        // payload: { ...action.payload }
       });
     } catch(e) {
       console.log(e.message);
@@ -123,74 +105,66 @@ export function* addressListSaga() {
 export function* routeSaga(action) {
 
   // yield takeEvery("GET_ROUTE", function*(action) {
-
+    try {
     const responce = yield call(getRoute, action.payload);
-    if (responce.length) {
+    // if (responce.length) {
       yield put({
         type: "SAVE_ROUTE",
-        payload: { ...action.payload, route: responce }
+        payload: {route: responce}
       });
-    } else {
-      console.log("ERROR");
+    } catch (e) {
+      console.log(e.message);
     }
   // });
 }
 export function* authorizationSaga(action) {
   // yield takeEvery("LOGIN", function*(action) {
+    try {
     const responce = yield call(postAuth, action.payload);
-    if (responce.success) {
       yield put({
         type: "LOGIN_DATA",
-        payload: { ...action.payload, token: responce.token }
+        payload: { ...action.payload, responce }
       });
       yield put({
         type: "GET_CARD",
-        payload: { ...action.payload, token: responce.token }
+        payload: { ...action.payload, responce }
       });
       yield put({
         type: "GET_ADDRESSES"
       });
-    } else {
-      console.log("ERROR");
+    } catch(e) {
+      console.log(e.message);
     }
   // });
 }
 
 export function* paymentSaga(action) {
   // yield takeEvery("POST_CARD", function*(action) {
+    try {
     const responce = yield call(postCard, action.payload);
-    if (responce.success) {
+    // if (responce.success) {
       yield put({
         type: "SAVE_CARD",
-        payload: {
-          cardNumber: responce.cardNumber,
-          expiryDate: responce.expiryDate,
-          cardName: responce.cardName,
-          cvc: responce.cvc
-        }
+        payload: responce
       });
-    } else {
-      console.log("ERROR");
+    } catch(e) {
+      console.log(e.message);
     }
   // });
 }
 
-function* cardSaga(action) {
+export function* cardSaga(action) {
   // yield takeEvery("GET_CARD", function*(action) {
+    try {
     const responce = yield call(getCard, action.payload);
 
-    if (responce.id !== "undefined") {
+    // if (responce.id !== "undefined") {
       yield put({
         type: "SAVE_CARD",
-        payload: {
-          cardNumber: responce.cardNumber,
-          expiryDate: responce.expiryDate,
-          cardName: responce.cardName,
-          cvc: responce.cvc
-        }
+        payload: responce
       });
-    } else {
-      console.log("NO CARD");
+    } catch(e) {
+      console.log(e.message);
     }
   // });
 }
@@ -199,7 +173,7 @@ export function* dataSaga() {
   all([
     yield takeEvery("GET_ADDRESSES", addressListSaga),
     yield takeEvery("SIGNIN", registrationSaga),
-    yield takeEvery("GET_ROUTE",routeSaga),
+    yield takeEvery("GET_ROUTE", routeSaga),
     yield takeEvery("LOGIN", authorizationSaga),
     yield takeEvery("POST_CARD", paymentSaga ),
     yield takeEvery("GET_CARD", cardSaga)

@@ -63,7 +63,7 @@ function Destination({ GET_ROUTE, data }) {
 
 const mapStateToProps = state => {
   return {
-    data: state.loginHandler.addresses
+    data: state.addresses
   };
 };
 

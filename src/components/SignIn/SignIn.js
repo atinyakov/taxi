@@ -89,7 +89,7 @@ function SignIn({SIGNIN}) {
 
 function mapStateToProps(state) {
   return {
-    user: state.userDataHandler
+    user: state.user
   }
 }
 

@@ -41,7 +41,7 @@ function withAuth(WrappedComponent) {
 
 const mapStateToProps = state => {
   return {
-    isLoggedIn: state.loginHandler.isLoggedIn
+    isLoggedIn: state.isLoggedIn
   };
 };
 // const mapDispatchToProps = dispatch => {

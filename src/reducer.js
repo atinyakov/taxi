@@ -1,5 +1,3 @@
-import { combineReducers } from "redux";
-
 let initState = {
   user: {
     name: "",
@@ -18,7 +16,8 @@ let initState = {
   addresses: "",
   route: ""
 };
-export function loginHandler(state = initState, action) {
+
+export default function loginHandler(state = initState, action) {
   switch (action.type) {
     case "LOGIN_DATA":
       return {
@@ -75,9 +74,3 @@ export function loginHandler(state = initState, action) {
       return state;
   }
 }
-
-export const taxiApp = combineReducers({
-  loginHandler
-  // userDataHandler,
-  // cardDataHandler
-});
