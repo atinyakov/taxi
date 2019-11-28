@@ -21,14 +21,14 @@ export const SAVE_CARD = (cardName, cardNumber, expiryDate, cvc) => ({
   type: "SAVE_CARD",
   payload: { cardName, cardNumber, expiryDate, cvc }
 });
-export const POST_CARD = (cardNumber, expiryDate, cardName, cvc, token) => ({
+export const POST_CARD = (cardNumber, expiryDate, cardName, cvc, responce) => ({
   type: "POST_CARD",
-  payload: { cardNumber, expiryDate, cardName, cvc, token }
+  payload: { cardNumber, expiryDate, cardName, cvc, token: responce.token }
 });
 export const GET_CARD = token => ({ type: "GET_CARD", payload: token });
-export const SAVE_ADDRESSES = addresses => ({
+export const SAVE_ADDRESSES = responce => ({
   type: "SAVE_ADDRESSES",
-  payload: addresses
+  payload: responce.addresses
 });
 export const GET_ADDRESSES = () => ({ type: "GET_ADDRESSES" });
 export const GET_ROUTE = (address1, address2) => ({

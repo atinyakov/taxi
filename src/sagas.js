@@ -90,29 +90,32 @@ export function postRegister({ email, password, name, surname }) {
 export function* registrationSaga(action) {
   // yield takeEvery("SIGNIN", function*(action) {
     // console.log(action.payload);
+    try {
     const responce = yield call(postRegister, action.payload);
-    if (responce.success) {
+    // if (responce.success) {
       yield put({
         type: "SIGNIN_DATA",
-        payload: { ...action.payload, token: responce.token }
+        // payload: { ...action.payload, token: responce }
+        payload: { ...action.payload }
       });
-    } else {
-      console.log("ERROR");
+    } catch(e) {
+      console.log(e.message);
     }
   // });
 }
 
-export function* addressListSaga(action) {
+export function* addressListSaga() {
   // yield takeEvery("GET_ADDRESSES", function*(action) {
     // console.log(action.payload);
+    try {
     const responce = yield call(getAddressList);
-    if (responce.addresses) {
+    // if (responce.addresses) {
       yield put({
         type: "SAVE_ADDRESSES",
-        payload: { ...action.payload, addresses: responce.addresses }
+        payload: responce
       });
-    } else {
-      console.log("ERROR");
+    } catch (e) {
+      console.log(e.message);
     }
   // });
 }
