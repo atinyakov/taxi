@@ -1,101 +1,140 @@
-import { loginHandler, userDataHandler, cardDataHandler } from './reducer';
+import loginHandler from "./reducer";
 
-describe('reducers', () => {
+describe("reducers", () => {
+  let initState = {
+    user: {
+      name: "",
+      surname: "",
+      email: "",
+      password: ""
+    },
+    isLoggedIn: false,
+    card: {
+      cardName: "",
+      cardNumber: "",
+      expiryDate: "",
+      cvc: ""
+    },
+    token: "",
+    addresses: "",
+    route: ""
+  };
 
-    it('LOGIN', () => {
-        const action = {
-            type: 'LOGIN'
-        };
+  it("LOGIN_DATA", () => {
+    const action = {
+      type: "LOGIN_DATA",
+      payload: {
+        email: "testemail",
+        password: "testpassword",
+        token: "123"
+      }
+    };
 
-        expect(loginHandler({ isLoggedIn: false }, action)).toEqual({
-            isLoggedIn: true
-        })
-    })
+    expect(
+      loginHandler(
+        { isLoggedIn: false, user: { email: "", password: "" } },
+        action
+      )
+    ).toEqual({
+      isLoggedIn: true,
+      user: {
+        email: "testemail",
+        password: "testpassword"
+      },
+      token: "123"
+    });
+  });
 
-    it('LOGOUT', () => {
-        const action = {
-            type: 'LOGOUT'
-        };
+  it("LOGOUT", () => {
+    const action = {
+      type: "LOGOUT"
+    };
 
-        expect(loginHandler({ isLoggedIn: true }, action)).toEqual({
-            isLoggedIn: false
-        })
-    })
+    expect(loginHandler({ isLoggedIn: true }, action)).toEqual({
+      isLoggedIn: false
+    });
+  });
 
-    it('SIGNIN_DATA', () => {
-        const action = {
-            type: 'SIGNIN_DATA',
-            payload: {
-                email:'test@test.com',
-                name:'Иван',
-                surname: 'Petrov',
-                password: 1234
-            }
-        };
-
-        const initalState = {
-            email: '',
-            name: '',
-            surname: '',
-            password: ''
+  it("SIGNIN_DATA", () => {
+    const action = {
+      type: "SIGNIN_DATA",
+      payload: {
+        email: "test@test.com",
+        password: "1234",
+        name: "Иван",
+        surname: "Petrov",
+        responce: {
+          token: 1234
         }
+      }
+    };
 
-        expect(userDataHandler(initalState, action)).toEqual({
-            ...initalState, email: 'test@test.com',
-            name: 'Иван',
-            surname: 'Petrov',
-            password: 1234
-        })
-    })
+    const initalState = {
+      user: { email: "", password: "", name: "", surname: "" }
+    };
 
-    it('LOGIN_DATA', () => {
-        const action = {
-            type: 'LOGIN_DATA',
-            payload: {
-                nickname:'test@test.com',
-                password: 1234
-            }
-        };
+    expect(loginHandler(initalState, action)).toEqual({
+      user: {
+        email: "test@test.com",
+        password: "1234",
+        name: "Иван",
+        surname: "Petrov"
+      }
+    });
+  });
 
-        const initalState = {
-            email: '',
-            name: '',
-            surname: '',
-            password: ''
-        }
+  it("LOGIN_DATA", () => {
+    const action = {
+      type: "LOGIN_DATA",
+      payload: {
+        email: "test@test.com",
+        password: 1234,
+        token: "12345"
+      }
+    };
 
-        expect(userDataHandler(initalState, action)).toEqual({
-            ...initalState,
-            nickname: 'test@test.com',
-            password: 1234
-        })
-    })
+    const initalState = {
+      user: { email: "", password: "" },
+      token: "",
+      isLoggedIn: false
+    };
 
-    it('CARD_DATA', () => {
-        const action = {
-            type: 'CARD_DATA',
-            payload: {
-                cardHolder: 'Ivan Petrov',
-                cardNumber: '124 567 6543',
-                cardExp: '202020',
-                cvv: '123'
-            }
-        };
+    expect(loginHandler(initalState, action)).toEqual({
+      user: {
+        email: "test@test.com",
+        password: 1234
+      },
+      token: "12345",
+      isLoggedIn: true
+    });
+  });
 
-        const initalState = {
-            cardHolder: '',
-            cardNumber: '',
-            cardExp: '',
-            cvv: ''
-        }
+  it("SAVE_CARD", () => {
+    const action = {
+      type: "SAVE_CARD",
+      payload: {
+        cardName: "Ivan Petrov",
+        cardNumber: "124 567 6543",
+        expiryDate: "202020",
+        cvc: "123"
+      }
+    };
 
-        expect(cardDataHandler(initalState, action)).toEqual({
-            ...initalState,
-            cardHolder: 'Ivan Petrov',
-            cardNumber: '124 567 6543',
-            cardExp: '202020',
-            cvv: '123'
-        })
-    })
+    const initalState = {
+      cardName: "",
+      cardNumber: "",
+      expiryDate: "",
+      cvc: ""
+    };
 
-})
+    expect(loginHandler(initalState, action)).toEqual({
+      ...initalState,
+      card: {
+        cardName: "Ivan Petrov",
+        cardNumber: "124 567 6543",
+        expiryDate: "202020",
+        cvc: "123"
+      }
+    });
+  });
+});

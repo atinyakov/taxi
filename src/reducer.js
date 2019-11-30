@@ -1,87 +1,76 @@
-import { combineReducers } from 'redux';
+let initState = {
+  user: {
+    name: "",
+    surname: "",
+    email: "",
+    password: ""
+  },
+  isLoggedIn: false,
+  card: {
+    cardName: "",
+    cardNumber: "",
+    expiryDate: "",
+    cvc: ""
+  },
+  token: "",
+  addresses: "",
+  route: ""
+};
 
-export function loginHandler(state = { isLoggedIn: false }, action) {
-    switch (action.type) {
-        case 'LOGIN':
-            return ({ ...state, isLoggedIn: true });
-        case 'LOGOUT':
-            return ({ ...state, isLoggedIn: false });
-        default:
-            return state;
-    }
+export default function loginHandler(state = initState, action) {
+  switch (action.type) {
+    case "LOGIN_DATA":
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          email: action.payload.email,
+          password: action.payload.password
+        },
+        isLoggedIn: true,
+        token: action.payload.token
+      };
+    case "LOGOUT":
+      return { ...state, isLoggedIn: false };
+    case "SIGNIN_DATA":
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          name: action.payload.name,
+          password: action.payload.password,
+          email: action.payload.email,
+          surname: action.payload.surname
+        },
+        token: action.payload.token
+      };
+    case "SAVE_ADDRESSES":
+      return {
+        ...state,
+
+        addresses: action.payload.addresses
+      };
+    case "SAVE_CARD":
+      return {
+        ...state,
+
+        card: {
+          ...state.card,
+          cardName: action.payload.cardName,
+          cardNumber: action.payload.cardNumber,
+          expiryDate: action.payload.expiryDate,
+          cvc: action.payload.cvc
+        }
+      };
+    case "SAVE_ROUTE":
+      return {
+        ...state,
+
+        route: action.payload.route
+      };
+    case "ERROR":
+      return state;
+    default:
+      return state;
+  }
 }
-
-export function userDataHandler(state = {
-
-    email: '',
-    nickname: '',
-    name: '',
-    surname: '',
-    password: ''
-
-}, action) {
-    switch (action.type) {
-        case 'LOGIN_DATA':
-            return ({
-                ...state,
-
-                nickname: action.payload.nickname,
-                password: action.payload.password
-
-            });
-        case 'SIGNIN_DATA':
-            return ({
-                ...state,
-
-                email: action.payload.email,
-                name: action.payload.name,
-                surname: action.payload.surname,
-                password: action.payload.password
-
-            });
-        default:
-            return state;
-    }
-}
-
-export function cardDataHandler(state = {
-
-    cardHolder: '',
-    cardNumber: '',
-    cardExp: '',
-    cvv: ''
-
-}, action) {
-    switch (action.type) {
-        case 'CARD_DATA':
-            return ({
-                ...state,
-
-                cardHolder: action.payload.cardHolder,
-                cardNumber: action.payload.cardNumber,
-                cardExp: action.payload.cardExp,
-                cvv: action.payload.cvv,
-
-            });
-        case 'SIGNIN_DATA':
-            return ({
-                ...state,
-
-                email: action.payload.email,
-                name: action.payload.name,
-                surname: action.payload.surname,
-                password: action.payload.password
-
-            });
-        default:
-            return state;
-    }
-}
-
-
-
-export const taxiApp = combineReducers({
-    loginHandler,
-    userDataHandler,
-    cardDataHandler
-})

@@ -20,9 +20,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function Popup({isLoggedIn}) {
+function Popup({ isLoggedIn }) {
   const steps = ['SignIn', 'SignUp'];
-  
+
   function getStepContent(step) {
     switch (step) {
       case 0:
@@ -35,7 +35,7 @@ function Popup({isLoggedIn}) {
   }
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  
+
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
@@ -108,16 +108,10 @@ function Popup({isLoggedIn}) {
 
 const mapStateToProps = (state) => {
   return {
-      isLoggedIn: state.loginHandler.isLoggedIn
+    isLoggedIn: state.isLoggedIn
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-  }
-}
-
-export default  connect(
-  mapStateToProps,
-  mapDispatchToProps
-)( Popup )
+export default connect(
+  mapStateToProps
+)(Popup)

@@ -55,7 +55,7 @@ const Header = ({ isLoggedIn, logout }) => {
 
 const mapStateToProps = (state) => {
     return {
-        isLoggedIn: state.loginHandler.isLoggedIn
+        isLoggedIn: state.isLoggedIn
     }
 }
 
