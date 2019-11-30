@@ -44,12 +44,5 @@ const mapStateToProps = state => {
     isLoggedIn: state.isLoggedIn
   };
 };
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     signUpData: (cardHolder, cardNumber, cardExp, cvv) => {
-//       dispatch(CARD(cardHolder, cardNumber, cardExp, cvv));
-//     }
-//   };
-// };
 
 export default connect(mapStateToProps)(App);

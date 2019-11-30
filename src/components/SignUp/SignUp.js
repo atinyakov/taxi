@@ -1,6 +1,5 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-// import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
@@ -28,7 +27,6 @@ function SignUp({ login }) {
     <React.Fragment>
       <Form
         onSubmit={onSubmit}
-        // initialValues={{ employed: true, stooge: "larry" }}
         validate={validate}
         render={({ handleSubmit, reset, submitting, pristine, values }) => (
           <form onSubmit={handleSubmit}>

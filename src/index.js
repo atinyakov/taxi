@@ -6,7 +6,6 @@ import { BrowserRouter } from "react-router-dom";
 import { createStore, compose, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import loginHandler  from "./reducer";
-// import { loginMiddleWare } from './middleware';
 import createSagaMiddleware from "redux-saga";
 import { dataSaga } from "./sagas";
 import { theme } from "loft-taxi-mui-theme";

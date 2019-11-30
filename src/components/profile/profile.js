@@ -3,7 +3,6 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
-// import Grid from './node_modules/@material-ui/core/Grid';
 import Grid from "@material-ui/core/Grid";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
@@ -63,11 +62,9 @@ function Profile({ token, POST_CARD }) {
       aria-labelledby='simple-modal-title'
       aria-describedby='simple-modal-description'
       open={true}
-      // onClose={handleClose}
     >
       <Form
         onSubmit={onSubmit}
-        // initialValues={{ employed: true, stooge: "larry" }}
         validate={validate}
         render={({ handleSubmit, reset, submitting, pristine, values }) => (
           <form onSubmit={handleSubmit}>

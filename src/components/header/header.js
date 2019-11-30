@@ -26,8 +26,6 @@ const Header = ({ isLoggedIn, logout }) => {
             <Button
               variant='contained'
               color='primary'
-              // disabled={!isLoggedin}
-              // onClick={toggleMap}
             >
               Карта
             </Button>
