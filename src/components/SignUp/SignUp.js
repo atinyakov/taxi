@@ -1,92 +1,92 @@
-import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-// import { userContext } from '../context';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { login } from '../../action';
+import React from "react";
+import Grid from "@material-ui/core/Grid";
+// import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { login } from "../../action";
+import { Form, Field } from "react-final-form";
+import { TextField } from "final-form-material-ui";
 
 function SignUp({ login }) {
-  const [username, setUsername] = React.useState();
-  const [password, setPassword] = React.useState();
+  const onSubmit = async values => {
+    login(values.email, values.password);
+    return <Redirect to='/map' />;
+  };
 
-  const handleEmail = (evt) => {
-    setUsername(evt.target.value)
-  }
-
-  const handlePassword = (evt) => {
-    setPassword(evt.target.value)
-  }
-
-  // const { login } = useContext(userContext);
-  // const { login } = props;
-  // console.log('loginData', loginData)
-
+  const validate = values => {
+    const errors = {};
+    if (!values.password) {
+      errors.password = "Required";
+    }
+    if (!values.email) {
+      errors.email = "Required";
+    }
+    return errors;
+  };
   return (
-
-
     <React.Fragment>
-      {/* <form onSubmit={(evt) => {
-        evt.preventDefault();
-        handleLogin(username, password);
-      }}> */}
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <TextField
-            required
-            id="username"
-            name="username"
-            label="Имя пользователя"
-            fullWidth
-            autoComplete="username"
-            onChange={handleEmail}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            id="password"
-            name="pasword"
-            label="Пароль"
-            fullWidth
-            onChange={handlePassword}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Link to="map">
-            <Button
-              onClick={evt => {
-                evt.preventDefault();
-                login(username, password);
-                // login()
-              }}
-            >
-              Войти
-            </Button>
-          </Link>
-        </Grid>
-      </Grid>
-      {/* </form> */}
+      <Form
+        onSubmit={onSubmit}
+        // initialValues={{ employed: true, stooge: "larry" }}
+        validate={validate}
+        render={({ handleSubmit, reset, submitting, pristine, values }) => (
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Field
+                  // error
+                  component={TextField}
+                  required
+                  type='email'
+                  id='email'
+                  name='email'
+                  label='E-mail'
+                  fullWidth
+                  autoComplete='email'
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Field
+                  component={TextField}
+                  required
+                  type='password'
+                  id='password'
+                  name='password'
+                  label='Пароль'
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Button
+                  variant='contained'
+                  color='primary'
+                  type='submit'
+                  disabled={submitting || pristine}
+                >
+                  Войти
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        )}
+      />
     </React.Fragment>
   );
-
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     user: state.user
-  }
-}
+  };
+};
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     login: (username, password) => {
       dispatch(login(username, password));
     }
-  }
-}
+  };
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SignUp)
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

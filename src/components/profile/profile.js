@@ -1,15 +1,21 @@
-import React, { useState } from "react";
-// import { makeStyles } from '@material-ui/core/styles';
+import React from "react";
 import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 // import Grid from './node_modules/@material-ui/core/Grid';
 import Grid from "@material-ui/core/Grid";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { POST_CARD } from "../../action";
+import { Form, Field } from "react-final-form";
+import { TextField } from "final-form-material-ui";
+
+import {
+  formatCreditCardNumber,
+  formatCVC,
+  formatExpirationDate
+} from './cardUtils'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -25,11 +31,32 @@ const useStyles = makeStyles(theme => ({
 
 function Profile({ token, POST_CARD }) {
   const classes = useStyles();
-  const [cardName, setCardName] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [expiryDate, setExpiryDate] = useState("");
-  const [cvc, setCvc] = useState("");
-//   const [ open, setOpen] = useState('false')
+  const onSubmit = async values => {
+    POST_CARD(
+      values.cardName,
+      values.cardNumber,
+      values.expiryDate,
+      values.cvc
+    );
+    return <Redirect to='/map' />;
+  };
+
+  const validate = values => {
+    const errors = {};
+    if (!values.cardNumber) {
+      errors.cardNumber = "Required";
+    }
+    if (!values.cardName) {
+      errors.cardName = "Required";
+    }
+    if (!values.expiryDate) {
+      errors.expiryDate = "Required";
+    }
+    if (!values.cvc) {
+      errors.cvc = "Обязательное поле";
+    }
+    return errors;
+  };
 
   return (
     <Modal
@@ -38,68 +65,77 @@ function Profile({ token, POST_CARD }) {
       open={true}
       // onClose={handleClose}
     >
-      <div className={classes.paper}>
-        <Typography variant='h5' gutterBottom>
-          Profile
-        </Typography>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            <TextField
-              required
-              id='cardName'
-              label='Name on card'
-              fullWidth
-              onChange={evt => {
-                setCardName(evt.target.value);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              required
-              id='cardNumber'
-              label='Card number'
-              fullWidth
-              onChange={evt => {
-                setCardNumber(evt.target.value);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              required
-              id='expDate'
-              label='Expiry date'
-              fullWidth
-              onChange={evt => {
-                setExpiryDate(evt.target.value);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              required
-              id='cvc'
-              label='CVC'
-              helperText='Last three digits on signature strip'
-              fullWidth
-              onChange={evt => {
-                setCvc(evt.target.value);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Button
-              onClick={() =>
-                POST_CARD(cardNumber, expiryDate, cardName, cvc, token)
-              }
-            >
-              Добавить карту
-            </Button>
-            <Link to="/map" > Закрыть </Link>
-          </Grid>
-        </Grid>
-      </div>
+      <Form
+        onSubmit={onSubmit}
+        // initialValues={{ employed: true, stooge: "larry" }}
+        validate={validate}
+        render={({ handleSubmit, reset, submitting, pristine, values }) => (
+          <form onSubmit={handleSubmit}>
+            <div className={classes.paper}>
+              <Typography variant='h5' gutterBottom>
+                Profile
+              </Typography>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={6}>
+                  <Field
+                    component={TextField}
+                    required
+                    id='cardName'
+                    label='Name on card'
+                    fullWidth
+                    name='cardName'
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Field
+                    component={TextField}
+                    required
+                    id='cardNumber'
+                    label='Card number'
+                    fullWidth
+                    name="cardNumber"
+                    format={formatCreditCardNumber}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Field
+                    required
+                    component={TextField}
+                    id='expDate'
+                    label='Expiry date'
+                    fullWidth
+                    name="expiryDate"
+                    format={formatExpirationDate}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Field
+                    required
+                    component={TextField}
+                    id='cvc'
+                    label='CVC'
+                    helperText='Last three digits on signature strip'
+                    fullWidth
+                    name='cvc'
+                    format={formatCVC}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    type='submit'
+                    disabled={submitting || pristine}
+                  >
+                    Добавить карту
+                  </Button>
+                  <Link to='/map'> Закрыть </Link>
+                </Grid>
+              </Grid>
+            </div>
+          </form>
+        )}
+      />
     </Modal>
   );
 }
