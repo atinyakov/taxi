@@ -99,7 +99,6 @@ function Destination({ GET_ROUTE, data, card }) {
           <Paper className={classes.order}>
             <Container className={classes.orderContainer}>
               <Grid container spacing={3}>
-                {/* <Grid item xs={12} md={6}> */}
                 <Link to='/profile' variant='contained' color='primary'>
                   Заполните банковскую карту
                 </Link>

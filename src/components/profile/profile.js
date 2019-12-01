@@ -16,18 +16,6 @@ import {
   formatExpirationDate
 } from "./cardUtils";
 
-// const useStyles = makeStyles(theme => ({
-//   paper: {
-//     position: "absolute",
-//     width: 400,
-//     top: "10%",
-//     left: "calc(50% - 200px)",
-//     backgroundColor: theme.palette.background.paper,
-//     boxShadow: theme.shadows[5],
-//     padding: theme.spacing(2, 4, 3)
-//   }
-// }));
-
 export const useStyles = makeStyles(() => ({
   buttonContainer: {
     display: "flex",
@@ -57,7 +45,7 @@ export const useStyles = makeStyles(() => ({
   }
 }));
 
-function Profile({ token, POST_CARD }) {
+function Profile({ token, card, POST_CARD }) {
   const classes = useStyles();
   const onSubmit = async values => {
     POST_CARD(
@@ -87,81 +75,73 @@ function Profile({ token, POST_CARD }) {
     return errors;
   };
 
+  const { cardName, cardNumber, expiryDate, cvc } = card;
+
   return (
     <Paper className={classes.profile}>
       <Container className={classes.profileContainer}>
         <Form
           onSubmit={onSubmit}
           validate={validate}
+          initialValues={{ cardName, cardNumber, expiryDate, cvc }}
           render={({ handleSubmit, reset, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit}>
-              {/* <div className={classes.paper}> */}
-                <Box textAlign='center'>
-                  <Typography variant='subtitle1'>Способ оплаты</Typography>
-                </Box>
-                <Box className={classes.cardsContainer}>
-                  <Paper className={classes.card}>
-                    <MCIcon />
-                    <Field
-                      component={TextField}
-                      required
-                      id='cardName'
-                      label='Name on card'
-                      fullWidth
-                      name='cardName'
-                    />
-                    {/* </Grid>
-                <Grid item xs={12} md={6}> */}
-                    <Field
-                      component={TextField}
-                      required
-                      id='cardNumber'
-                      label='Card number'
-                      fullWidth
-                      name='cardNumber'
-                      format={formatCreditCardNumber}
-                    />
-                    {/* </Grid> */}
-                  </Paper>
-                  <Paper className={classes.card}>
-                    {/* <Grid item xs={12} md={6}> */}
-                    <Field
-                      required
-                      component={TextField}
-                      id='expDate'
-                      label='Expiry date'
-                      fullWidth
-                      name='expiryDate'
-                      format={formatExpirationDate}
-                    />
-                    {/* </Grid>
-                <Grid item xs={12} md={6}> */}
-                    <Field
-                      required
-                      component={TextField}
-                      id='cvc'
-                      label='CVC'
-                      helperText='Last three digits on signature strip'
-                      fullWidth
-                      name='cvc'
-                      format={formatCVC}
-                    />
-                    {/* </Grid> */}
-                  </Paper>
-                </Box>
-                <Box className={classes.buttonContainer}>
-                  {/* <Grid item xs={12} md={6}> */}
-                  <Button
-                    variant='contained'
-                    color='primary'
-                    type='submit'
-                    disabled={submitting || pristine}
-                  >
-                    Добавить карту
-                  </Button>
-                  {/* </Grid> */}
-                </Box>
-              {/* </div> */}
+              <Box textAlign='center'>
+                <Typography variant='subtitle1'>Способ оплаты</Typography>
+              </Box>
+              <Box className={classes.cardsContainer}>
+                <Paper className={classes.card}>
+                  <MCIcon />
+                  <Field
+                    component={TextField}
+                    required
+                    id='cardName'
+                    label='Name on card'
+                    fullWidth
+                    name='cardName'
+                  />
+                  <Field
+                    component={TextField}
+                    required
+                    id='cardNumber'
+                    label='Card number'
+                    fullWidth
+                    name='cardNumber'
+                    format={formatCreditCardNumber}
+                  />
+                </Paper>
+                <Paper className={classes.card}>
+                  <Field
+                    required
+                    component={TextField}
+                    id='expDate'
+                    label='Expiry date'
+                    fullWidth
+                    name='expiryDate'
+                    format={formatExpirationDate}
+                  />
+                  <Field
+                    required
+                    component={TextField}
+                    id='cvc'
+                    label='CVC'
+                    helperText='Last three digits on signature strip'
+                    fullWidth
+                    name='cvc'
+                    format={formatCVC}
+                  />
+                </Paper>
+              </Box>
+              <Box className={classes.buttonContainer}>
+                <Button
+                  variant='contained'
+                  color='primary'
+                  type='submit'
+                  disabled={submitting || pristine}
+                >
+                  Добавить карту
+                </Button>
+              </Box>
             </form>
           )}
         />
@@ -172,7 +152,8 @@ function Profile({ token, POST_CARD }) {
 
 const mapStateToProps = state => {
   return {
-    token: state.token
+    token: state.token,
+    card: state.card
   };
 };
 
