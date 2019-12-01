@@ -6,6 +6,7 @@ import SignIn from "../SignIn";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { connect } from "react-redux";
+import Background from "../../img/bg/auth-bg.jpg";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -16,6 +17,11 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3)
+  },
+  authBg: {
+    backgroundColor: "#000",
+    backgroundImage: `url(${Background})`,
+    backgroundSize: "cover"
   }
 }));
 
@@ -25,7 +31,7 @@ function Popup({ isLoggedIn }) {
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <SignIn handleNext={handleNext}/>;
+        return <SignIn handleNext={handleNext} />;
       case 1:
         return <SignUp />;
       default:
@@ -48,6 +54,7 @@ function Popup({ isLoggedIn }) {
       aria-labelledby='simple-modal-title'
       aria-describedby='simple-modal-description'
       open={!isLoggedIn}
+      className={classes.authBg}
     >
       <div className={classes.paper}>
         <React.Fragment>

@@ -10,6 +10,7 @@ import createSagaMiddleware from "redux-saga";
 import { dataSaga } from "./sagas";
 import { theme } from "loft-taxi-mui-theme";
 import { MuiThemeProvider } from "@material-ui/core/styles";
+import './styles.css'
 
 // let prevState = localStorage.getItem("user");
 // let userData = { ...JSON.parse(prevState) };

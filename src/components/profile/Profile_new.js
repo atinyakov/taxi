@@ -1,32 +1,28 @@
 import React from "react";
-import Typography from "@material-ui/core/Typography";
+// import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import { Container, Box, Paper } from "@material-ui/core/";
-import { Redirect } from "react-router-dom";
+// import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { POST_CARD } from "../../action";
 import { Form, Field } from "react-final-form";
-import { TextField } from "final-form-material-ui";
+import "../../styles.css";
 import { MCIcon } from "loft-taxi-mui-theme";
+import {
+  Container,
+  Box,
+  Typography,
+  Paper,
+  TextField,
+  Button
+} from "@material-ui/core/";
 
 import {
   formatCreditCardNumber,
   formatCVC,
   formatExpirationDate
 } from "./cardUtils";
-
-// const useStyles = makeStyles(theme => ({
-//   paper: {
-//     position: "absolute",
-//     width: 400,
-//     top: "10%",
-//     left: "calc(50% - 200px)",
-//     backgroundColor: theme.palette.background.paper,
-//     boxShadow: theme.shadows[5],
-//     padding: theme.spacing(2, 4, 3)
-//   }
-// }));
 
 export const useStyles = makeStyles(() => ({
   buttonContainer: {
@@ -41,11 +37,16 @@ export const useStyles = makeStyles(() => ({
   },
   card: {
     boxSizing: "border-box",
-    marginRight: "10px",
     height: "230px",
     width: "384px",
     padding: "40px 30px 30px",
     position: "relative"
+  },
+  container: {
+    minHeight: "calc(100vh - 71px)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
   },
   profile: {
     padding: "56px 0 72px",
@@ -88,43 +89,45 @@ function Profile({ token, POST_CARD }) {
   };
 
   return (
-    <Paper className={classes.profile}>
-      <Container className={classes.profileContainer}>
-        <Form
-          onSubmit={onSubmit}
-          validate={validate}
-          render={({ handleSubmit, reset, submitting, pristine, values }) => (
-            <form onSubmit={handleSubmit}>
-              {/* <div className={classes.paper}> */}
+    <Container className={classes.container}>
+      <Paper className={classes.profile}>
+        <Container className={classes.profileContainer}>
+          <Form
+            onSubmit={onSubmit}
+            validate={validate}
+            render={({ handleSubmit, reset, submitting, pristine, values }) => (
+              <form onSubmit={handleSubmit}>
                 <Box textAlign='center'>
                   <Typography variant='subtitle1'>Способ оплаты</Typography>
                 </Box>
                 <Box className={classes.cardsContainer}>
                   <Paper className={classes.card}>
                     <MCIcon />
-                    <Field
-                      component={TextField}
-                      required
-                      id='cardName'
-                      label='Name on card'
-                      fullWidth
-                      name='cardName'
-                    />
-                    {/* </Grid>
-                <Grid item xs={12} md={6}> */}
-                    <Field
-                      component={TextField}
-                      required
-                      id='cardNumber'
-                      label='Card number'
-                      fullWidth
-                      name='cardNumber'
-                      format={formatCreditCardNumber}
-                    />
-                    {/* </Grid> */}
+                    <Grid container spacing={3}>
+                      <Grid item xs={12} md={6}>
+                        <Field
+                          component={TextField}
+                          required
+                          id='cardName'
+                          label='Name on card'
+                          fullWidth
+                          name='cardName'
+                        />
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        <Field
+                          component={TextField}
+                          required
+                          id='cardNumber'
+                          label='Card number'
+                          fullWidth
+                          name='cardNumber'
+                          format={formatCreditCardNumber}
+                        />
+                      </Grid>
+                    </Grid>
                   </Paper>
                   <Paper className={classes.card}>
-                    {/* <Grid item xs={12} md={6}> */}
                     <Field
                       required
                       component={TextField}
@@ -134,8 +137,6 @@ function Profile({ token, POST_CARD }) {
                       name='expiryDate'
                       format={formatExpirationDate}
                     />
-                    {/* </Grid>
-                <Grid item xs={12} md={6}> */}
                     <Field
                       required
                       component={TextField}
@@ -146,27 +147,25 @@ function Profile({ token, POST_CARD }) {
                       name='cvc'
                       format={formatCVC}
                     />
-                    {/* </Grid> */}
                   </Paper>
                 </Box>
                 <Box className={classes.buttonContainer}>
-                  {/* <Grid item xs={12} md={6}> */}
                   <Button
                     variant='contained'
                     color='primary'
                     type='submit'
+                    size='large'
                     disabled={submitting || pristine}
                   >
                     Добавить карту
                   </Button>
-                  {/* </Grid> */}
                 </Box>
-              {/* </div> */}
-            </form>
-          )}
-        />
-      </Container>
-    </Paper>
+              </form>
+            )}
+          />
+        </Container>
+      </Paper>
+    </Container>
   );
 }
 

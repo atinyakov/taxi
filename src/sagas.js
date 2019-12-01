@@ -25,7 +25,6 @@ export function postCard({ cardNumber, expiryDate, cardName, cvc, token }) {
 }
 
 export function getCard(token) {
-console.log(token)
   return fetch(`https://loft-taxi.glitch.me/card?token=${token}`, {
     method: "GET",
     headers: {
@@ -143,8 +142,7 @@ export function* paymentSaga(action) {
 }
 
 export function* cardSaga(action) {
-    console.log("action", action)
-    console.log("action paykoad", action.payload)
+
     try {
     const responce = yield call(getCard, action.payload);
 
