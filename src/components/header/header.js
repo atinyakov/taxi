@@ -10,7 +10,7 @@ import { logout } from "../../action";
 
 const useStyles = makeStyles(theme => ({
   title: {
-    flexGrow: 1
+    marginRight: 'auto'
   }
 }));
 

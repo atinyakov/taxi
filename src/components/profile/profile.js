@@ -1,7 +1,6 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { Link, Redirect } from "react-router-dom";
@@ -59,11 +58,6 @@ function Profile({ token, POST_CARD }) {
   };
 
   return (
-    <Modal
-      aria-labelledby='simple-modal-title'
-      aria-describedby='simple-modal-description'
-      open={true}
-    >
       <Form
         onSubmit={onSubmit}
         validate={validate}
@@ -134,7 +128,6 @@ function Profile({ token, POST_CARD }) {
           </form>
         )}
       />
-    </Modal>
   );
 }
 
