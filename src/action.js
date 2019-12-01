@@ -7,9 +7,9 @@ export const SIGNIN = (email, password, name, surname) => ({
   type: "SIGNIN",
   payload: { email, password, name, surname }
 });
-export const loginData = (email, password, responce) => ({
+export const loginData = (email, password, token) => ({
   type: "LOGIN_DATA",
-  payload: { email, password, token: responce.token }
+  payload: { email, password, token }
 });
 export const signUpData = (email, password, name, surname, responce) => ({
   type: "SIGNIN_DATA",
@@ -25,13 +25,13 @@ export const SAVE_CARD = responce => ({
     cvc: responce.cvc
   }
 });
-export const POST_CARD = (cardNumber, expiryDate, cardName, cvc, responce) => ({
+export const POST_CARD = (cardNumber, expiryDate, cardName, cvc, token) => ({
   type: "POST_CARD",
-  payload: { cardNumber, expiryDate, cardName, cvc, token: responce.token }
+  payload: { cardNumber, expiryDate, cardName, cvc, token }
 });
-export const GET_CARD = responce => ({
+export const GET_CARD = token => ({
   type: "GET_CARD",
-  payload: responce.token
+  payload: token
 });
 export const SAVE_ADDRESSES = responce => ({
   type: "SAVE_ADDRESSES",

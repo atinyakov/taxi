@@ -6,15 +6,17 @@ import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
 import { Autocomplete } from "@material-ui/lab";
 import { GET_ROUTE } from "../../action";
+import { Link } from "react-router-dom";
 
-function Destination({ GET_ROUTE, data }) {
+function Destination({ GET_ROUTE, data, card }) {
   const addresses = data || ["Init"];
   const [address1, setAddress1] = useState("");
   const [address2, setAddress2] = useState("");
 
   return (
     <div className={`destination`}>
-      <React.Fragment>
+      {card && (
+        // <React.Fragment>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
             <Autocomplete
@@ -56,14 +58,25 @@ function Destination({ GET_ROUTE, data }) {
             </Button>
           </Grid>
         </Grid>
-      </React.Fragment>
+      )}
+
+      {!card && (
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <Link to='/profile' variant='contained' color='primary'>
+              Заполните банковскую карту
+            </Link>
+          </Grid>
+        </Grid>
+      )}
     </div>
   );
 }
 
 const mapStateToProps = state => {
   return {
-    data: state.addresses
+    data: state.addresses,
+    card: state.card.cardNumber
   };
 };
 

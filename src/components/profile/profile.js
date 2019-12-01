@@ -35,9 +35,10 @@ function Profile({ token, POST_CARD }) {
       values.cardName,
       values.cardNumber,
       values.expiryDate,
-      values.cvc
+      values.cvc,
+      token
     );
-    return <Redirect to='/map' />;
+    return <Redirect to='map' />;;
   };
 
   const validate = values => {

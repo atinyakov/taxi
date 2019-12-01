@@ -3,7 +3,9 @@ import Destination from "../Destination";
 import { connect } from "react-redux";
 import mapboxgl from "mapbox-gl";
 import "./style.css";
+
 mapboxgl.accessToken = `pk.eyJ1IjoiYWtvZmYiLCJhIjoiY2syNTd3NHRvMTQzcTNtbXp4ZnAxNWs5YyJ9.ELtn_IIvz8p_0R6ujfH8Hw`;
+
 class Map extends Component {
   constructor(props) {
     super(props);
@@ -14,17 +16,17 @@ class Map extends Component {
     };
     this.map = null;
   }
- 
+
   componentDidMount() {
     this.map = new mapboxgl.Map({
       container: this.mapContainer,
-      style: 'mapbox://styles/mapbox/streets-v11',
+      style: "mapbox://styles/mapbox/streets-v11",
       center: [30.273032, 59.798668],
       zoom: 8
-  })
+    });
   }
   componentDidUpdate() {
-    this.drawRoute(this.map, this.props.coordinates)
+    this.drawRoute(this.map, this.props.coordinates);
   }
   drawRoute = (map, coordinates) => {
     this.map.flyTo({

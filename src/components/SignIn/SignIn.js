@@ -8,7 +8,7 @@ import { SIGNIN } from "../../action";
 
 function SignIn({ SIGNIN, handleNext }) {
   const onSubmit = async values => {
-    SIGNIN(values.email, values.password, values.name, values.surname)
+    SIGNIN(values.email, values.password, values.firstName, values.lastName)
     handleNext()
   };
 
