@@ -25,7 +25,7 @@ export const saveCard = responce => ({
     cvc: responce.cvc
   }
 });
-export const postCard = (cardNumber, expiryDate, cardName, cvc, token) => ({
+export const postCard = ({ cardNumber, expiryDate, cardName, cvc}, token) => ({
   type: "POST_CARD",
   payload: { cardNumber, expiryDate, cardName, cvc, token }
 });

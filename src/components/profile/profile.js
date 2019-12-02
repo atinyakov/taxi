@@ -49,10 +49,7 @@ function Profile({ token, card, postCard }) {
   const classes = useStyles();
   const onSubmit = async values => {
     postCard(
-      values.cardName,
-      values.cardNumber,
-      values.expiryDate,
-      values.cvc,
+      values,
       token
     );
     return <Redirect to='map' />;
@@ -159,8 +156,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    postCard: (cardNumber, expiryDate, cardName, cvc, token) => {
-      dispatch(postCard(cardNumber, expiryDate, cardName, cvc, token));
+    postCard: (values, token) => {
+      dispatch(postCard(values, token));
     }
   };
 };

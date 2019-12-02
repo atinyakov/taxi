@@ -133,7 +133,7 @@ export function* paymentSaga(action) {
 
       yield put({
         type: "SAVE_CARD",
-        payload: responce
+        payload: action.payload
       });
     } catch(e) {
       console.log(e.message);
