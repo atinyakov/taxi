@@ -62,17 +62,6 @@ let LoginPage = ({ isLoggedIn }) =>
     <Redirect to='/' exact component={Popup} />
   );
 
-LoginPage = withAuth(LoginPage);
-
-function withAuth(WrappedComponent) {
-  return class AuthHOC extends Component {
-    render() {
-      const { ...rest } = this.props;
-
-      return <WrappedComponent {...rest} />;
-    }
-  };
-}
 
 const mapStateToProps = state => {
   return {

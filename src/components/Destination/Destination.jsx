@@ -124,6 +124,8 @@ function Destination({ GET_ROUTE, data, card }) {
                   onClick={evt => {
                     evt.preventDefault();
                     setOrdered(false);
+                    setAddress1('');
+                    setAddress2('');
                   }}
                 >
                   Сделать новый заказ
