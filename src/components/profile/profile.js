@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 import { Container, Box, Paper } from "@material-ui/core/";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { POST_CARD } from "../../action";
+import { postCard } from "../../action";
 import { Form, Field } from "react-final-form";
 import { TextField } from "final-form-material-ui";
 import { MCIcon } from "loft-taxi-mui-theme";
@@ -45,10 +45,10 @@ export const useStyles = makeStyles(() => ({
   }
 }));
 
-function Profile({ token, card, POST_CARD }) {
+function Profile({ token, card, postCard }) {
   const classes = useStyles();
   const onSubmit = async values => {
-    POST_CARD(
+    postCard(
       values.cardName,
       values.cardNumber,
       values.expiryDate,
@@ -159,8 +159,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    POST_CARD: (cardNumber, expiryDate, cardName, cvc, token) => {
-      dispatch(POST_CARD(cardNumber, expiryDate, cardName, cvc, token));
+    postCard: (cardNumber, expiryDate, cardName, cvc, token) => {
+      dispatch(postCard(cardNumber, expiryDate, cardName, cvc, token));
     }
   };
 };

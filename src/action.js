@@ -3,7 +3,7 @@ export const login = (email, password) => ({
   payload: { email, password }
 });
 export const logout = () => ({ type: "LOGOUT" });
-export const SIGNIN = (email, password, name, surname) => ({
+export const signInAction = (email, password, name, surname) => ({
   type: "SIGNIN",
   payload: { email, password, name, surname }
 });
@@ -16,7 +16,7 @@ export const signUpData = (email, password, name, surname, responce) => ({
   payload: { email, password, name, surname, token: responce.token }
 });
 // export const cardData = (cardHolder, cardNumber, cardExp, cvv) => ({ type: 'CARD_DATA', payload: { cardHolder, cardNumber, cardExp, cvv } });
-export const SAVE_CARD = responce => ({
+export const saveCard = responce => ({
   type: "SAVE_CARD",
   payload: {
     cardName: responce.cardName,
@@ -25,26 +25,25 @@ export const SAVE_CARD = responce => ({
     cvc: responce.cvc
   }
 });
-export const POST_CARD = (cardNumber, expiryDate, cardName, cvc, token) => ({
+export const postCard = (cardNumber, expiryDate, cardName, cvc, token) => ({
   type: "POST_CARD",
   payload: { cardNumber, expiryDate, cardName, cvc, token }
 });
-export const GET_CARD = token => ({
+export const getCard = token => ({
   type: "GET_CARD",
   payload: token
 });
-export const SAVE_ADDRESSES = responce => ({
+export const saveAddresses = responce => ({
   type: "SAVE_ADDRESSES",
   payload: responce.addresses
 });
-export const GET_ADDRESSES = () => ({ type: "GET_ADDRESSES" });
-export const GET_ROUTE = (address1, address2) => ({
+export const getAddresses = () => ({ type: "GET_ADDRESSES" });
+export const getRoute = (address1, address2) => ({
   type: "GET_ROUTE",
   payload: { address1, address2 }
 });
 
-export const SAVE_ROUTE = responce => {
-  console.log("TYT", responce);
+export const saveRoute = responce => {
   return {
     type: "SAVE_ROUTE",
     payload: { route: responce.route }

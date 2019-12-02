@@ -5,7 +5,7 @@ import "./style.css";
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
 import { Autocomplete } from "@material-ui/lab";
-import { GET_ROUTE } from "../../action";
+import { getRoute } from "../../action";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Paper } from "@material-ui/core/";
@@ -33,7 +33,7 @@ const useFormStyles = makeStyles(() => ({
   }
 }));
 
-function Destination({ GET_ROUTE, data, card }) {
+function Destination({ getRoute, data, card }) {
   const classes = useFormStyles();
   const addresses = data || ["Init"];
   const [address1, setAddress1] = useState("");
@@ -82,7 +82,7 @@ function Destination({ GET_ROUTE, data, card }) {
                   size='large'
                   onClick={evt => {
                     evt.preventDefault();
-                    GET_ROUTE(address1, address2);
+                    getRoute(address1, address2);
                     setOrdered(true);
                   }}
                 >
@@ -148,8 +148,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    GET_ROUTE: (address1, address2) => {
-      dispatch(GET_ROUTE(address1, address2));
+    getRoute: (address1, address2) => {
+      dispatch(getRoute(address1, address2));
     }
   };
 };

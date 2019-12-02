@@ -4,11 +4,11 @@ import { Form, Field } from "react-final-form";
 import { TextField } from "final-form-material-ui";
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
-import { SIGNIN } from "../../action";
+import { signInAction } from "../../action";
 
-function SignIn({ SIGNIN, handleNext }) {
+function SignIn({ signInAction, handleNext }) {
   const onSubmit = async values => {
-    SIGNIN(values.email, values.password, values.firstName, values.lastName)
+    signInAction(values.email, values.password, values.firstName, values.lastName)
     handleNext()
   };
 
@@ -109,8 +109,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    SIGNIN: (email, name, surname, password) => {
-      dispatch(SIGNIN(email, name, surname, password));
+    signInAction: (email, name, surname, password) => {
+      dispatch(signInAction(email, name, surname, password));
     }
   };
 }
