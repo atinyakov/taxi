@@ -1,88 +1,102 @@
-import React, { useState } from 'react';
-// import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Checkbox from '@material-ui/core/Checkbox';
-import Button from '@material-ui/core/Button';
-import { connect } from 'react-redux';
-import { SIGNIN } from '../../action';
+import React from "react";
+import Grid from "@material-ui/core/Grid";
+import { Form, Field } from "react-final-form";
+import { TextField } from "final-form-material-ui";
+import Button from "@material-ui/core/Button";
+import { connect } from "react-redux";
+import { signInAction } from "../../action";
 
+function SignIn({ signInAction, handleNext }) {
+  const onSubmit = async values => {
+    signInAction(values.email, values.password, values.firstName, values.lastName)
+    handleNext()
+  };
 
-
-function SignIn({SIGNIN}) {
-  const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-
-
-  const nameChange = (evt) => {
-    setName(evt.target.value)
-  }
-  const surnameChange = (evt) => {
-    setSurname(evt.target.value)
-  }
-  const passwordChange = (evt) => {
-    setPassword(evt.target.value)
-  }
-  const emailChange = (evt) => {
-    setEmail(evt.target.value)
-  }
-
+  const validate = values => {
+    const errors = {};
+    if (!values.password) {
+      errors.password = "Required";
+    }
+    if (!values.email) {
+      errors.email = "Required";
+    }
+    if (!values.password) {
+      errors.firstName = "Required";
+    }
+    if (!values.email) {
+      errors.lastName = "Обязательное поле";
+    }
+    return errors;
+  };
 
   return (
     <React.Fragment>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <TextField
-            required
-            id="email"
-            name="email"
-            label="Адрес электронной почты"
-            fullWidth
-            autoComplete="email"
-            onChange={emailChange}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="firstName"
-            name="firstName"
-            label="Имя"
-            fullWidth
-            autoComplete="fname"
-            onChange={nameChange}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="lastName"
-            name="lastName"
-            label="Фамилия"
-            fullWidth
-            autoComplete="lname"
-            onChange={surnameChange}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            required
-            id="address1"
-            name="password"
-            label="Пароль"
-            fullWidth
-            onChange={passwordChange}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <Button onClick = {() => SIGNIN(email, password, name, surname)}>
-            Зарегистрироваться
-          </Button>
-        </Grid>
-      </Grid>
+      <Form
+        onSubmit={onSubmit}
+        // initialValues={{ employed: true, stooge: "larry" }}
+        validate={validate}
+        render={({ handleSubmit, reset, submitting, pristine, values }) => (
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Field
+                  required
+                  id='email'
+                  component={TextField}
+                  type='email'
+                  name='email'
+                  label='Адрес электронной почты'
+                  fullWidth
+                  autoComplete='email'
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Field
+                  required
+                  component={TextField}
+                  id='firstName'
+                  name='firstName'
+                  label='Имя'
+                  fullWidth
+                  autoComplete='fname'
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Field
+                  required
+                  component={TextField}
+                  id='lastName'
+                  name='lastName'
+                  label='Фамилия'
+                  fullWidth
+                  autoComplete='lname'
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Field
+                  required
+                  component={TextField}
+                  id='address1'
+                  name='password'
+                  label='Пароль'
+                  fullWidth
+                  type='password'
+                />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Button
+                  variant='contained'
+                  color='primary'
+                  type='submit'
+                  disabled={submitting || pristine}
+                >
+                  Зарегистрироваться
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        )}
+      />
     </React.Fragment>
   );
 }
@@ -90,18 +104,15 @@ function SignIn({SIGNIN}) {
 function mapStateToProps(state) {
   return {
     user: state.user
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    SIGNIN: (email, name, surname, password) => {
-      dispatch(SIGNIN(email, name, surname, password))
+    signInAction: (email, name, surname, password) => {
+      dispatch(signInAction(email, name, surname, password));
     }
-  }
+  };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SignIn)
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

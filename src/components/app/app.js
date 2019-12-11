@@ -1,55 +1,72 @@
-import React, { Component } from "react";
+import React from "react";
 import Header from "../Header";
 import Popup from "../Popup";
 import Map from "../Map";
 import Profile from "../Profile";
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { Container, Box } from "@material-ui/core/";
+import { makeStyles } from "@material-ui/core/styles";
+import { Logo } from "loft-taxi-mui-theme";
+import Background from "../../img/bg/auth-bg.jpg";
 
-const App = ({isLoggedIn}) => {
-    return (
-      <>
-        <Header />
 
-        <LoginPage isLoggedIn = {isLoggedIn} />
+const useStyles = makeStyles(() => ({
+  authBg: {
+    backgroundColor: "#000",
+    backgroundImage: `url(${Background})`,
+    backgroundSize: "cover"
+  },
+  container: {
+    maxWidth: "1000px",
+    minHeight: "100vh",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
+  logoContainer: {
+    width: "420px",
+    display: "flex",
+    justifyContent: "center"
+  }
+}));
 
-        <Route path='/' exact component={Popup} />
-        <Route path='/map' component={Map} />
-        <Route path='/profile' component={Profile} />
-      </>
-    );
-}
+const App = ({ isLoggedIn }) => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.authBg}>
+      <Container>
+        <Box className={classes.container}>
+          <Box className={classes.logoContainer}>
+            <Logo white animated />
+          </Box>
+          <Header />
+
+          <LoginPage isLoggedIn={isLoggedIn} />
+
+          <Route path='/' exact component={Popup} />
+          <Route path='/map' component={Map} />
+          <Route path='/profile' component={Profile} />
+        </Box>
+      </Container>
+    </div>
+  );
+};
 
 let LoginPage = ({ isLoggedIn }) =>
-isLoggedIn ? (
+  isLoggedIn ? (
     <Redirect to='/map' />
   ) : (
     <Redirect to='/' exact component={Popup} />
   );
 
-LoginPage = withAuth(LoginPage);
-
-function withAuth(WrappedComponent) {
-  return class AuthHOC extends Component {
-    render() {
-      const { ...rest } = this.props;
-
-      return <WrappedComponent {...rest} />;
-    }
-  };
-}
 
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.isLoggedIn
   };
 };
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     signUpData: (cardHolder, cardNumber, cardExp, cvv) => {
-//       dispatch(CARD(cardHolder, cardNumber, cardExp, cvv));
-//     }
-//   };
-// };
 
 export default connect(mapStateToProps)(App);

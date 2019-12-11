@@ -1,119 +1,163 @@
-import React, { useState } from "react";
-// import { makeStyles } from '@material-ui/core/styles';
+import React from "react";
 import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
-// import Grid from './node_modules/@material-ui/core/Grid';
-import Grid from "@material-ui/core/Grid";
-import { Link } from "react-router-dom";
+import { Container, Box, Paper } from "@material-ui/core/";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { POST_CARD } from "../../action";
+import { postCard } from "../../action";
+import { Form, Field } from "react-final-form";
+import { TextField } from "final-form-material-ui";
+import { MCIcon } from "loft-taxi-mui-theme";
 
-const useStyles = makeStyles(theme => ({
-  paper: {
-    position: "absolute",
-    width: 400,
-    top: "10%",
-    left: "calc(50% - 200px)",
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3)
+import {
+  formatCreditCardNumber,
+  formatCVC,
+  formatExpirationDate
+} from "./cardUtils";
+
+export const useStyles = makeStyles(() => ({
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "46px"
+  },
+  cardsContainer: {
+    marginTop: "40px",
+    display: "flex",
+    justifyContent: "space-between"
+  },
+  card: {
+    boxSizing: "border-box",
+    marginRight: "10px",
+    height: "230px",
+    width: "384px",
+    padding: "40px 30px 30px",
+    position: "relative"
+  },
+  profile: {
+    padding: "56px 0 72px",
+    width: "945px",
+    position: "relative"
+  },
+  profileContainer: {
+    padding: "0 73px"
   }
 }));
 
-function Profile({ token, POST_CARD }) {
+function Profile({ token, card, postCard }) {
   const classes = useStyles();
-  const [cardName, setCardName] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [expiryDate, setExpiryDate] = useState("");
-  const [cvc, setCvc] = useState("");
-//   const [ open, setOpen] = useState('false')
+  const onSubmit = async values => {
+    postCard(
+      values,
+      token
+    );
+    return <Redirect to='map' />;
+  };
+
+  const validate = values => {
+    const errors = {};
+    if (!values.cardNumber) {
+      errors.cardNumber = "Required";
+    }
+    if (!values.cardName) {
+      errors.cardName = "Required";
+    }
+    if (!values.expiryDate) {
+      errors.expiryDate = "Required";
+    }
+    if (!values.cvc) {
+      errors.cvc = "Обязательное поле";
+    }
+    return errors;
+  };
+
+  const { cardName, cardNumber, expiryDate, cvc } = card;
 
   return (
-    <Modal
-      aria-labelledby='simple-modal-title'
-      aria-describedby='simple-modal-description'
-      open={true}
-      // onClose={handleClose}
-    >
-      <div className={classes.paper}>
-        <Typography variant='h5' gutterBottom>
-          Profile
-        </Typography>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            <TextField
-              required
-              id='cardName'
-              label='Name on card'
-              fullWidth
-              onChange={evt => {
-                setCardName(evt.target.value);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              required
-              id='cardNumber'
-              label='Card number'
-              fullWidth
-              onChange={evt => {
-                setCardNumber(evt.target.value);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              required
-              id='expDate'
-              label='Expiry date'
-              fullWidth
-              onChange={evt => {
-                setExpiryDate(evt.target.value);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              required
-              id='cvc'
-              label='CVC'
-              helperText='Last three digits on signature strip'
-              fullWidth
-              onChange={evt => {
-                setCvc(evt.target.value);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Button
-              onClick={() =>
-                POST_CARD(cardNumber, expiryDate, cardName, cvc, token)
-              }
-            >
-              Добавить карту
-            </Button>
-            <Link to="/map" > Закрыть </Link>
-          </Grid>
-        </Grid>
-      </div>
-    </Modal>
+    <Paper className={classes.profile}>
+      <Container className={classes.profileContainer}>
+        <Form
+          onSubmit={onSubmit}
+          validate={validate}
+          initialValues={{ cardName, cardNumber, expiryDate, cvc }}
+          render={({ handleSubmit, reset, submitting, pristine, values }) => (
+            <form onSubmit={handleSubmit}>
+              <Box textAlign='center'>
+                <Typography variant='subtitle1'>Способ оплаты</Typography>
+              </Box>
+              <Box className={classes.cardsContainer}>
+                <Paper className={classes.card}>
+                  <MCIcon />
+                  <Field
+                    component={TextField}
+                    required
+                    id='cardName'
+                    label='Name on card'
+                    fullWidth
+                    name='cardName'
+                  />
+                  <Field
+                    component={TextField}
+                    required
+                    id='cardNumber'
+                    label='Card number'
+                    fullWidth
+                    name='cardNumber'
+                    format={formatCreditCardNumber}
+                  />
+                </Paper>
+                <Paper className={classes.card}>
+                  <Field
+                    required
+                    component={TextField}
+                    id='expDate'
+                    label='Expiry date'
+                    fullWidth
+                    name='expiryDate'
+                    format={formatExpirationDate}
+                  />
+                  <Field
+                    required
+                    component={TextField}
+                    id='cvc'
+                    label='CVC'
+                    helperText='Last three digits on signature strip'
+                    fullWidth
+                    name='cvc'
+                    format={formatCVC}
+                  />
+                </Paper>
+              </Box>
+              <Box className={classes.buttonContainer}>
+                <Button
+                  variant='contained'
+                  color='primary'
+                  type='submit'
+                  disabled={submitting || pristine}
+                >
+                  Добавить карту
+                </Button>
+              </Box>
+            </form>
+          )}
+        />
+      </Container>
+    </Paper>
   );
 }
 
 const mapStateToProps = state => {
   return {
-    token: state.token
+    token: state.token,
+    card: state.card
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    POST_CARD: (cardNumber, expiryDate, cardName, cvc, token) => {
-      dispatch(POST_CARD(cardNumber, expiryDate, cardName, cvc, token));
+    postCard: (values, token) => {
+      dispatch(postCard(values, token));
     }
   };
 };
